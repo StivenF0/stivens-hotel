@@ -33,13 +33,13 @@ public class Reservation {
     @Column(nullable = false)
     private ReservationStatus status;
 
-    // --- Relacionamentos ---
-    // Muitas Reservas (Reservation) podem pertencer a Um Hóspede (Guest)
+    // --- Relationships ---
+    // Many Reservations can have one Guest
     @ManyToOne
     @JoinColumn(name = "guest_id", nullable = false)
     private Guest guest;
 
-    // Muitas Reservas (Reservation) podem ser feitas para Um Quarto (Room)
+    // Many Reservations can have one Room
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
