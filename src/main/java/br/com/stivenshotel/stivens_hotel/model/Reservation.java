@@ -2,6 +2,7 @@ package br.com.stivenshotel.stivens_hotel.model;
 
 import br.com.stivenshotel.stivens_hotel.enums.ReservationStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Reservation {
     @Column(nullable = false)
     private LocalDate checkOutDate;
 
+    @Min(value = 0, message = "O valor da reserva não pode ser negativo.")
     private BigDecimal totalValue;
 
     @Enumerated(EnumType.STRING)

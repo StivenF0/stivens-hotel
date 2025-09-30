@@ -2,6 +2,7 @@ package br.com.stivenshotel.stivens_hotel.model;
 
 import br.com.stivenshotel.stivens_hotel.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "O nome não pode ser vazio.")
     @Column(nullable = false)
     private String name;
 
