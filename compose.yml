@@ -1,0 +1,16 @@
+
+services:
+  postgres:
+    image: postgres:17.6-alpine3.22
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: stivens_hotel_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - shotel_data:/var/lib/postgresql/data
+
+volumes:
+  shotel_data:
