@@ -2,10 +2,12 @@ package br.com.stivenshotel.stivens_hotel.service;
 
 import br.com.stivenshotel.stivens_hotel.model.RoomType;
 import br.com.stivenshotel.stivens_hotel.repository.RoomTypeRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class RoomTypeService {
     private final RoomTypeRepository roomTypeRepository;
 
