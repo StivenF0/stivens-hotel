@@ -2,6 +2,7 @@ package br.com.stivenshotel.stivens_hotel.model;
 
 import br.com.stivenshotel.stivens_hotel.enums.ReservationStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,9 +24,11 @@ public class Reservation {
     private Long id;
 
     @Column(nullable = false)
+    @FutureOrPresent(message = "A data de check-in deve ser hoje ou uma data futura")
     private LocalDate checkInDate;
 
     @Column(nullable = false)
+    @FutureOrPresent(message = "A data de check-out deve ser hoje ou uma data futura")
     private LocalDate checkOutDate;
 
     @Min(value = 0, message = "O valor da reserva não pode ser negativo.")
