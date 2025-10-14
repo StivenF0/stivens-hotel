@@ -1,6 +1,7 @@
 package br.com.stivenshotel.stivens_hotel.controller;
 
-import br.com.stivenshotel.stivens_hotel.model.RoomType;
+import br.com.stivenshotel.stivens_hotel.dto.roomtype.RoomTypeRequestDTO;
+import br.com.stivenshotel.stivens_hotel.dto.roomtype.RoomTypeResponseDTO;
 import br.com.stivenshotel.stivens_hotel.service.RoomTypeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,26 +20,28 @@ public class RoomTypeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RoomType>> getAllRoomTypes() {
-        List<RoomType> roomTypes = roomTypeService.findAll();
+    public ResponseEntity<List<RoomTypeResponseDTO>> getAllRoomTypes() {
+        List<RoomTypeResponseDTO> roomTypes = roomTypeService.findAll();
         return ResponseEntity.ok(roomTypes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoomType> getRoomTypeById(@PathVariable Long id) {
-        RoomType roomType = roomTypeService.findById(id);
+    public ResponseEntity<RoomTypeResponseDTO> getRoomTypeById(@PathVariable Long id) {
+        RoomTypeResponseDTO roomType = roomTypeService.findById(id);
         return ResponseEntity.ok(roomType);
     }
 
     @PostMapping
-    public ResponseEntity<RoomType> createRoomType(@Valid @RequestBody RoomType roomType) {
-        RoomType newRoomType = roomTypeService.create(roomType);
+    public ResponseEntity<RoomTypeResponseDTO> createRoomType(@Valid @RequestBody RoomTypeRequestDTO roomTypeRequest) {
+        RoomTypeResponseDTO newRoomType = roomTypeService.create(roomTypeRequest);
         return new ResponseEntity<>(newRoomType, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoomType> updateRoomType(@PathVariable Long id, @Valid @RequestBody RoomType roomTypeDetails) {
-        RoomType updatedRoomType = roomTypeService.update(id, roomTypeDetails);
+    public ResponseEntity<RoomTypeResponseDTO> updateRoomType(
+            @PathVariable Long id,
+            @Valid @RequestBody RoomTypeRequestDTO roomTypeRequest) {
+        RoomTypeResponseDTO updatedRoomType = roomTypeService.update(id, roomTypeRequest);
         return ResponseEntity.ok(updatedRoomType);
     }
 

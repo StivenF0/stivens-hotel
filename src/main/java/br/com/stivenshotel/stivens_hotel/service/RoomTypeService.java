@@ -1,11 +1,12 @@
 package br.com.stivenshotel.stivens_hotel.service;
 
+import br.com.stivenshotel.stivens_hotel.dto.roomtype.RoomTypeRequestDTO;
+import br.com.stivenshotel.stivens_hotel.dto.roomtype.RoomTypeResponseDTO;
 import br.com.stivenshotel.stivens_hotel.model.RoomType;
 import br.com.stivenshotel.stivens_hotel.repository.RoomTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RoomTypeService {
@@ -15,35 +16,58 @@ public class RoomTypeService {
         this.roomTypeRepository = roomTypeRepository;
     }
 
-    public List<RoomType> findAll() {
-        return roomTypeRepository.findAll();
+    public List<RoomTypeResponseDTO> findAll() {
+        return roomTypeRepository.findAll().stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 
-    public RoomType findById(Long id) {
-        return roomTypeRepository.findById(id)
+    public RoomTypeResponseDTO findById(Long id) {
+        RoomType roomType = roomTypeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("RoomType not found by id: " + id));
+        return toResponseDTO(roomType);
     }
 
-    public RoomType create(RoomType roomType) {
-        return roomTypeRepository.save(roomType);
+    public RoomTypeResponseDTO create(RoomTypeRequestDTO dto) {
+        RoomType roomType = toEntity(dto);
+        RoomType savedRoomType = roomTypeRepository.save(roomType);
+        return toResponseDTO(savedRoomType);
     }
 
-    public RoomType update(Long id, RoomType roomTypeDetails) {
-        Optional<RoomType> optionalRoomType = roomTypeRepository.findById(id);
-        if (!optionalRoomType.isPresent()) {
-            throw new RuntimeException("RoomType not found by id: " + id);
-        }
+    public RoomTypeResponseDTO update(Long id, RoomTypeRequestDTO dto) {
+        RoomType existingRoomType = roomTypeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("RoomType not found by id: " + id));
 
-        RoomType roomType = optionalRoomType.get();
-        roomType.setName(roomTypeDetails.getName());
-        roomType.setDescription(roomTypeDetails.getDescription());
-        roomType.setDailyPrice(roomTypeDetails.getDailyPrice());
-
-        return roomTypeRepository.save(roomType);
+        updateEntityFromDTO(existingRoomType, dto);
+        RoomType savedRoomType = roomTypeRepository.save(existingRoomType);
+        return toResponseDTO(savedRoomType);
     }
 
     public void delete(Long id) {
-        Optional<RoomType> roomType = roomTypeRepository.findById(id);
-        roomType.ifPresent(roomTypeRepository::delete);
+        if (!roomTypeRepository.existsById(id)) {
+            throw new RuntimeException("RoomType not found by id: " + id);
+        }
+        roomTypeRepository.deleteById(id);
+    }
+
+    private RoomType toEntity(RoomTypeRequestDTO dto) {
+        RoomType roomType = new RoomType();
+        updateEntityFromDTO(roomType, dto);
+        return roomType;
+    }
+
+    private void updateEntityFromDTO(RoomType roomType, RoomTypeRequestDTO dto) {
+        roomType.setName(dto.name());
+        roomType.setDescription(dto.description());
+        roomType.setDailyPrice(dto.dailyPrice());
+    }
+
+    private RoomTypeResponseDTO toResponseDTO(RoomType entity) {
+        return new RoomTypeResponseDTO(
+            entity.getId(),
+            entity.getName(),
+            entity.getDescription(),
+            entity.getDailyPrice()
+        );
     }
 }
