@@ -1,12 +1,13 @@
 package br.com.stivenshotel.stivens_hotel.service;
 
+import br.com.stivenshotel.stivens_hotel.dto.user.UserRequestDTO;
+import br.com.stivenshotel.stivens_hotel.dto.user.UserResponseDTO;
 import br.com.stivenshotel.stivens_hotel.model.User;
 import br.com.stivenshotel.stivens_hotel.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -18,41 +19,60 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User create(User user) {
-        Optional<User> optionalUser = userRepository.findByName(user.getName());
-        if (optionalUser.isPresent()) {
+    public UserResponseDTO create(UserRequestDTO userRequest) {
+        if (userRepository.findByName(userRequest.name()).isPresent()) {
             throw new RuntimeException("Username already exists");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        User user = new User();
+        updateUserFromDTO(user, userRequest);
+        user.setPassword(passwordEncoder.encode(userRequest.password()));
+
+        User savedUser = userRepository.save(user);
+        return toUserResponseDTO(savedUser);
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserResponseDTO> findAll() {
+        return userRepository.findAll().stream()
+                .map(this::toUserResponseDTO)
+                .toList();
     }
 
-    public User findById(Long id) {
-        return userRepository.findById(id)
+    public UserResponseDTO findById(Long id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        return toUserResponseDTO(user);
     }
 
-    public User update(Long id, User userDetails) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (!optionalUser.isPresent()) {
-            throw new RuntimeException("User not found");
+    public UserResponseDTO update(Long id, UserRequestDTO userDetails) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        updateUserFromDTO(user, userDetails);
+        if (userDetails.password() != null && !userDetails.password().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(userDetails.password()));
         }
 
-        User user = optionalUser.get();
-        user.setName(userDetails.getName());
-        user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
-        user.setRole(userDetails.getRole());
-
-        return userRepository.save(user);
+        User updatedUser = userRepository.save(user);
+        return toUserResponseDTO(updatedUser);
     }
 
     public void delete(Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        optionalUser.ifPresent(userRepository::delete);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userRepository.delete(user);
+    }
+
+    private void updateUserFromDTO(User user, UserRequestDTO dto) {
+        user.setName(dto.name());
+        user.setRole(dto.role());
+    }
+
+    private UserResponseDTO toUserResponseDTO(User user) {
+        return new UserResponseDTO(
+                user.getId(),
+                user.getName(),
+                user.getRole()
+        );
     }
 }

@@ -1,6 +1,7 @@
 package br.com.stivenshotel.stivens_hotel.controller;
 
-import br.com.stivenshotel.stivens_hotel.model.User;
+import br.com.stivenshotel.stivens_hotel.dto.user.UserRequestDTO;
+import br.com.stivenshotel.stivens_hotel.dto.user.UserResponseDTO;
 import br.com.stivenshotel.stivens_hotel.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,26 +20,28 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAll();
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        List<UserResponseDTO> users = userService.findAll();
         return ResponseEntity.ok(users);
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
-        User createdUser = userService.create(user);
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO userRequest) {
+        UserResponseDTO createdUser = userService.create(userRequest);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.findById(id);
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
+        UserResponseDTO user = userService.findById(id);
         return ResponseEntity.ok(user);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody User userDetails) {
-        User updatedUser = userService.update(id, userDetails);
+    public ResponseEntity<UserResponseDTO> updateUser(
+            @PathVariable Long id,
+            @Valid @RequestBody UserRequestDTO userRequest) {
+        UserResponseDTO updatedUser = userService.update(id, userRequest);
         return ResponseEntity.ok(updatedUser);
     }
 
