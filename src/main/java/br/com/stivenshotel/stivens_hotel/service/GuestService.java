@@ -62,8 +62,8 @@ public class GuestService {
                 guest.getId(),
                 guest.getFullName(),
                 guest.getCpf(),
-                guest.getEmail(),
-                guest.getPhone()
+                guest.getPhone(),
+                guest.getEmail()
         );
     }
 }
