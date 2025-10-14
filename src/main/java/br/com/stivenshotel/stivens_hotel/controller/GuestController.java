@@ -1,6 +1,7 @@
 package br.com.stivenshotel.stivens_hotel.controller;
 
-import br.com.stivenshotel.stivens_hotel.model.Guest;
+import br.com.stivenshotel.stivens_hotel.dto.guest.GuestRequestDTO;
+import br.com.stivenshotel.stivens_hotel.dto.guest.GuestResponseDTO;
 import br.com.stivenshotel.stivens_hotel.service.GuestService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,26 +20,26 @@ public class GuestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Guest>> getAllGuests() {
-        List<Guest> guests = guestService.findAll();
+    public ResponseEntity<List<GuestResponseDTO>> getAllGuests() {
+        List<GuestResponseDTO> guests = guestService.findAll();
         return ResponseEntity.ok(guests);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Guest> getGuestById(@PathVariable Long id) {
-        Guest guest = guestService.findById(id);
+    public ResponseEntity<GuestResponseDTO> getGuestById(@PathVariable Long id) {
+        GuestResponseDTO guest = guestService.findById(id);
         return ResponseEntity.ok(guest);
     }
 
     @PostMapping
-    public ResponseEntity<Guest> createGuest(@Valid @RequestBody Guest guest) {
-        Guest newGuest = guestService.create(guest);
+    public ResponseEntity<GuestResponseDTO> createGuest(@Valid @RequestBody GuestRequestDTO guestRequest) {
+        GuestResponseDTO newGuest = guestService.create(guestRequest);
         return new ResponseEntity<>(newGuest, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Guest> updateGuest(@PathVariable Long id, @Valid @RequestBody Guest guestDetails) {
-        Guest updatedGuest = guestService.update(id, guestDetails);
+    public ResponseEntity<GuestResponseDTO> updateGuest(@PathVariable Long id, @Valid @RequestBody GuestRequestDTO guestRequest) {
+        GuestResponseDTO updatedGuest = guestService.update(id, guestRequest);
         return ResponseEntity.ok(updatedGuest);
     }
 
