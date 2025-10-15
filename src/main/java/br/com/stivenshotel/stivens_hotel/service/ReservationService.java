@@ -1,10 +1,16 @@
 package br.com.stivenshotel.stivens_hotel.service;
 
+import br.com.stivenshotel.stivens_hotel.dto.guest.GuestResponseDTO;
+import br.com.stivenshotel.stivens_hotel.dto.reservation.ReservationRequestDTO;
+import br.com.stivenshotel.stivens_hotel.dto.reservation.ReservationResponseDTO;
+import br.com.stivenshotel.stivens_hotel.dto.room.RoomResponseDTO;
+import br.com.stivenshotel.stivens_hotel.dto.roomtype.RoomTypeResponseDTO;
 import br.com.stivenshotel.stivens_hotel.enums.ReservationStatus;
 import br.com.stivenshotel.stivens_hotel.enums.RoomStatus;
 import br.com.stivenshotel.stivens_hotel.model.Guest;
 import br.com.stivenshotel.stivens_hotel.model.Reservation;
 import br.com.stivenshotel.stivens_hotel.model.Room;
+import br.com.stivenshotel.stivens_hotel.model.RoomType;
 import br.com.stivenshotel.stivens_hotel.repository.GuestRepository;
 import br.com.stivenshotel.stivens_hotel.repository.ReservationRepository;
 import br.com.stivenshotel.stivens_hotel.repository.RoomRepository;
@@ -17,7 +23,6 @@ import java.util.List;
 
 @Service
 public class ReservationService {
-
     private final ReservationRepository reservationRepository;
     private final GuestRepository guestRepository;
     private final RoomRepository roomRepository;
@@ -28,96 +33,157 @@ public class ReservationService {
         this.roomRepository = roomRepository;
     }
 
-    public List<Reservation> findAll() {
-        return reservationRepository.findAll();
+    public List<ReservationResponseDTO> findAll() {
+        return reservationRepository.findAll().stream()
+                .map(this::toReservationResponseDTO)
+                .toList();
     }
 
-    public Reservation findById(Long id) {
-        return reservationRepository.findById(id)
+    public ReservationResponseDTO findById(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + id));
+        return toReservationResponseDTO(reservation);
     }
 
     @Transactional
-    public Reservation create(Reservation reservation) {
-        if (reservation.getCheckOutDate().isBefore(reservation.getCheckInDate())) {
+    public ReservationResponseDTO create(ReservationRequestDTO requestDTO) {
+        if (requestDTO.checkOutDate().isBefore(requestDTO.checkInDate())) {
             throw new IllegalArgumentException("Check-out date must be after check-in date.");
         }
 
-        Guest guest = guestRepository.findById(reservation.getGuest().getId())
+        Guest guest = guestRepository.findById(requestDTO.guestId())
                 .orElseThrow(() -> new RuntimeException("Guest not found"));
-        Room room = roomRepository.findById(reservation.getRoom().getId())
+        Room room = roomRepository.findById(requestDTO.roomId())
                 .orElseThrow(() -> new RuntimeException("Room not found"));
 
         if (room.getStatus() != RoomStatus.AVAILABLE) {
             throw new IllegalStateException("Room is not available for reservation.");
         }
 
-        long numberOfDays = ChronoUnit.DAYS.between(reservation.getCheckInDate(), reservation.getCheckOutDate());
+        long numberOfDays = ChronoUnit.DAYS.between(requestDTO.checkInDate(), requestDTO.checkOutDate());
         if (numberOfDays == 0) numberOfDays = 1;
         BigDecimal totalValue = room.getRoomType().getDailyPrice().multiply(new BigDecimal(numberOfDays));
 
+        Reservation reservation = new Reservation();
+        reservation.setCheckInDate(requestDTO.checkInDate());
+        reservation.setCheckOutDate(requestDTO.checkOutDate());
         reservation.setStatus(ReservationStatus.CONFIRMED);
         reservation.setTotalValue(totalValue);
         reservation.setGuest(guest);
         reservation.setRoom(room);
 
-        return reservationRepository.save(reservation);
+        Reservation savedReservation = reservationRepository.save(reservation);
+        return toReservationResponseDTO(savedReservation);
     }
 
     @Transactional
-    public Reservation update(Long id, Reservation reservationDetails) {
-        Reservation existingReservation = findById(id);
+    public ReservationResponseDTO update(Long id, ReservationRequestDTO requestDTO) {
+        Reservation existingReservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + id));
 
-        existingReservation.setCheckInDate(reservationDetails.getCheckInDate());
-        existingReservation.setCheckOutDate(reservationDetails.getCheckOutDate());
+        if (requestDTO.checkOutDate().isBefore(requestDTO.checkInDate())) {
+            throw new IllegalArgumentException("Check-out date must be after check-in date.");
+        }
 
-        // Recalcula o valor se as datas mudarem
-        long numberOfDays = ChronoUnit.DAYS.between(existingReservation.getCheckInDate(), existingReservation.getCheckOutDate());
+        Guest guest = guestRepository.findById(requestDTO.guestId())
+                .orElseThrow(() -> new RuntimeException("Guest not found"));
+        Room room = roomRepository.findById(requestDTO.roomId())
+                .orElseThrow(() -> new RuntimeException("Room not found"));
+
+        existingReservation.setCheckInDate(requestDTO.checkInDate());
+        existingReservation.setCheckOutDate(requestDTO.checkOutDate());
+        existingReservation.setGuest(guest);
+        existingReservation.setRoom(room);
+
+        // Recalculate total value if dates changed
+        long numberOfDays = ChronoUnit.DAYS.between(requestDTO.checkInDate(), requestDTO.checkOutDate());
         if (numberOfDays == 0) numberOfDays = 1;
-        BigDecimal totalValue = existingReservation.getRoom().getRoomType().getDailyPrice().multiply(new BigDecimal(numberOfDays));
+        BigDecimal totalValue = room.getRoomType().getDailyPrice().multiply(new BigDecimal(numberOfDays));
         existingReservation.setTotalValue(totalValue);
 
-        return reservationRepository.save(existingReservation);
+        Reservation updatedReservation = reservationRepository.save(existingReservation);
+        return toReservationResponseDTO(updatedReservation);
     }
 
+    @Transactional
     public void delete(Long id) {
-        Reservation reservation = findById(id);
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + id));
         reservationRepository.delete(reservation);
     }
 
     @Transactional
-    public Reservation checkIn(Long id) {
-        Reservation reservation = findById(id);
+    public ReservationResponseDTO checkIn(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + id));
+
         if (reservation.getStatus() != ReservationStatus.CONFIRMED) {
             throw new IllegalStateException("Only confirmed reservations can be checked in.");
         }
 
         Room room = reservation.getRoom();
-
-        // Atualiza os status
         reservation.setStatus(ReservationStatus.IN_PROGRESS);
         room.setStatus(RoomStatus.OCCUPIED);
 
-        // Salva as entidades atualizadas
-        roomRepository.save(room);
-        return reservationRepository.save(reservation);
+        Reservation updatedReservation = reservationRepository.save(reservation);
+        return toReservationResponseDTO(updatedReservation);
     }
 
     @Transactional
-    public Reservation checkOut(Long id) {
-        Reservation reservation = findById(id);
+    public ReservationResponseDTO checkOut(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + id));
+
         if (reservation.getStatus() != ReservationStatus.IN_PROGRESS) {
             throw new IllegalStateException("Only in-progress reservations can be checked out.");
         }
 
         Room room = reservation.getRoom();
-
-        // Atualiza os status
         reservation.setStatus(ReservationStatus.COMPLETED);
-        room.setStatus(RoomStatus.CLEANING);
+        room.setStatus(RoomStatus.AVAILABLE);
 
-        // Salva as entidades atualizadas
-        roomRepository.save(room);
-        return reservationRepository.save(reservation);
+        Reservation updatedReservation = reservationRepository.save(reservation);
+        return toReservationResponseDTO(updatedReservation);
+    }
+
+    private ReservationResponseDTO toReservationResponseDTO(Reservation reservation) {
+        return new ReservationResponseDTO(
+                reservation.getId(),
+                reservation.getCheckInDate(),
+                reservation.getCheckOutDate(),
+                reservation.getTotalValue(),
+                reservation.getStatus(),
+                toGuestResponseDTO(reservation.getGuest()),
+                toRoomResponseDTO(reservation.getRoom())
+        );
+    }
+
+    private GuestResponseDTO toGuestResponseDTO(Guest guest) {
+        return new GuestResponseDTO(
+                guest.getId(),
+                guest.getFullName(),
+                guest.getCpf(),
+                guest.getEmail(),
+                guest.getPhone()
+        );
+    }
+
+    private RoomResponseDTO toRoomResponseDTO(Room room) {
+        return new RoomResponseDTO(
+                room.getId(),
+                room.getNumber(),
+                room.getFloor(),
+                room.getStatus(),
+                toRoomTypeResponseDTO(room.getRoomType())
+        );
+    }
+
+    private RoomTypeResponseDTO toRoomTypeResponseDTO(RoomType roomType) {
+        return new RoomTypeResponseDTO(
+                roomType.getId(),
+                roomType.getName(),
+                roomType.getDescription(),
+                roomType.getDailyPrice()
+        );
     }
 }
