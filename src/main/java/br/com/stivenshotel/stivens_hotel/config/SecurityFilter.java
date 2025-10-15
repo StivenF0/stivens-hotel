@@ -16,7 +16,6 @@ import java.io.IOException;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
-
     private final TokenService tokenService;
     private final UserRepository userRepository;
 
@@ -31,7 +30,8 @@ public class SecurityFilter extends OncePerRequestFilter {
         String token = recoverToken(request);
         if (token != null && tokenService.isTokenValid(token)) {
             String username = tokenService.getUsernameFromToken(token);
-            UserDetails user = userRepository.findByName(username).orElseThrow(() -> new RuntimeException("User not found"));
+            UserDetails user = userRepository.findByName(username)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -44,7 +44,6 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return null;
         }
-
         return authHeader.substring(7);
     }
 }
