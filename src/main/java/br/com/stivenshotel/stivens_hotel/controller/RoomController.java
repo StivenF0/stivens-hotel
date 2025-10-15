@@ -1,6 +1,7 @@
 package br.com.stivenshotel.stivens_hotel.controller;
 
-import br.com.stivenshotel.stivens_hotel.model.Room;
+import br.com.stivenshotel.stivens_hotel.dto.room.RoomRequestDTO;
+import br.com.stivenshotel.stivens_hotel.dto.room.RoomResponseDTO;
 import br.com.stivenshotel.stivens_hotel.service.RoomService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomController {
-
     private final RoomService roomService;
 
     public RoomController(RoomService roomService) {
@@ -19,25 +19,27 @@ public class RoomController {
     }
 
     @PostMapping
-    public ResponseEntity<Room> createRoom(@Valid @RequestBody Room room) {
-        Room createdRoom = roomService.create(room);
+    public ResponseEntity<RoomResponseDTO> createRoom(@Valid @RequestBody RoomRequestDTO roomRequest) {
+        RoomResponseDTO createdRoom = roomService.create(roomRequest);
         return new ResponseEntity<>(createdRoom, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Room>> getAllRooms() {
+    public ResponseEntity<List<RoomResponseDTO>> getAllRooms() {
         return ResponseEntity.ok(roomService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
-        Room room = roomService.findById(id);
+    public ResponseEntity<RoomResponseDTO> getRoomById(@PathVariable Long id) {
+        RoomResponseDTO room = roomService.findById(id);
         return ResponseEntity.ok(room);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Room> updateRoom(@PathVariable Long id, @Valid @RequestBody Room roomDetails) {
-        Room updatedRoom = roomService.update(id, roomDetails);
+    public ResponseEntity<RoomResponseDTO> updateRoom(
+            @PathVariable Long id,
+            @Valid @RequestBody RoomRequestDTO roomRequest) {
+        RoomResponseDTO updatedRoom = roomService.update(id, roomRequest);
         return ResponseEntity.ok(updatedRoom);
     }
 

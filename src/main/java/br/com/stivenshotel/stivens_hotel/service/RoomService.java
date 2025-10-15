@@ -1,5 +1,8 @@
 package br.com.stivenshotel.stivens_hotel.service;
 
+import br.com.stivenshotel.stivens_hotel.dto.room.RoomRequestDTO;
+import br.com.stivenshotel.stivens_hotel.dto.room.RoomResponseDTO;
+import br.com.stivenshotel.stivens_hotel.dto.roomtype.RoomTypeResponseDTO;
 import br.com.stivenshotel.stivens_hotel.enums.RoomStatus;
 import br.com.stivenshotel.stivens_hotel.model.Room;
 import br.com.stivenshotel.stivens_hotel.model.RoomType;
@@ -9,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RoomService {
@@ -21,53 +23,76 @@ public class RoomService {
         this.roomTypeRepository = roomTypeRepository;
     }
 
-
     @Transactional
-    public Room create(Room room) {
-        if (roomRepository.findByNumber(room.getNumber()).isPresent()) {
-            throw new RuntimeException("Room with number " + room.getNumber() + " already exists.");
+    public RoomResponseDTO create(RoomRequestDTO roomRequest) {
+        if (roomRepository.findByNumber(roomRequest.number()).isPresent()) {
+            throw new RuntimeException("Room with number " + roomRequest.number() + " already exists.");
         }
 
-        // Confere se o tipo de quarto existe
-        RoomType roomType = roomTypeRepository.findById(room.getRoomType().getId())
+        RoomType roomType = roomTypeRepository.findById(roomRequest.roomTypeId())
                 .orElseThrow(() -> new RuntimeException("RoomType not found"));
 
-        // Define o status inicial para qualquer novo quarto
-        room.setStatus(RoomStatus.AVAILABLE);
+        Room room = new Room();
+        updateRoomFromDTO(room, roomRequest, roomType);
 
-        // Define o tipo de quarto completo
-        room.setRoomType(roomType);
-
-        return roomRepository.save(room);
+        Room savedRoom = roomRepository.save(room);
+        return toRoomResponseDTO(savedRoom);
     }
 
-    public List<Room> findAll() {
-        return roomRepository.findAll();
+    public List<RoomResponseDTO> findAll() {
+        return roomRepository.findAll().stream()
+                .map(this::toRoomResponseDTO)
+                .toList();
     }
 
-    public Room findById(Long id) {
-        return roomRepository.findById(id)
+    public RoomResponseDTO findById(Long id) {
+        Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Room not found by id: " + id));
+        return toRoomResponseDTO(room);
     }
 
     @Transactional
-    public Room update(Long id, Room roomDetails) {
-        Room existingRoom = findById(id);
+    public RoomResponseDTO update(Long id, RoomRequestDTO roomRequest) {
+        Room existingRoom = roomRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Room not found by id: " + id));
 
-        // Confere se o tipo de quarto existe
-        RoomType roomType = roomTypeRepository.findById(roomDetails.getRoomType().getId())
+        RoomType roomType = roomTypeRepository.findById(roomRequest.roomTypeId())
                 .orElseThrow(() -> new RuntimeException("RoomType not found"));
 
-        existingRoom.setNumber(roomDetails.getNumber());
-        existingRoom.setFloor(roomDetails.getFloor());
-        existingRoom.setStatus(roomDetails.getStatus());
-        existingRoom.setRoomType(roomType);
-
-        return roomRepository.save(existingRoom);
+        updateRoomFromDTO(existingRoom, roomRequest, roomType);
+        Room updatedRoom = roomRepository.save(existingRoom);
+        return toRoomResponseDTO(updatedRoom);
     }
 
     public void delete(Long id) {
-        Optional<Room> room = roomRepository.findById(id);
-        room.ifPresent(roomRepository::delete);
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Room not found by id: " + id));
+        roomRepository.delete(room);
+    }
+
+    private void updateRoomFromDTO(Room room, RoomRequestDTO dto, RoomType roomType) {
+        room.setNumber(dto.number());
+        room.setFloor(dto.floor());
+        room.setStatus(dto.status());
+        room.setRoomType(roomType);
+    }
+
+    private RoomResponseDTO toRoomResponseDTO(Room room) {
+        return new RoomResponseDTO(
+                room.getId(),
+                room.getNumber(),
+                room.getFloor(),
+                room.getStatus(),
+                toRoomTypeResponseDTO(room.getRoomType())
+        );
+    }
+
+    private RoomTypeResponseDTO toRoomTypeResponseDTO(RoomType roomType) {
+        return new RoomTypeResponseDTO(
+                roomType.getId(),
+                roomType.getName(),
+                roomType.getDescription(),
+                roomType.getDailyPrice()
+        );
     }
 }

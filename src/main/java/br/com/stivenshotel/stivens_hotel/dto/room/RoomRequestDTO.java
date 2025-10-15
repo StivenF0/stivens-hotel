@@ -1,5 +1,6 @@
 package br.com.stivenshotel.stivens_hotel.dto.room;
 
+import br.com.stivenshotel.stivens_hotel.enums.RoomStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
@@ -13,5 +14,8 @@ public record RoomRequestDTO(
     Integer floor,
 
     @NotNull(message = "O tipo do quarto não pode ser nulo")
-    Long roomTypeId
+    Long roomTypeId,
+
+    @NotNull(message = "O status do quarto não pode ser nulo")
+    RoomStatus status
 ) {}
