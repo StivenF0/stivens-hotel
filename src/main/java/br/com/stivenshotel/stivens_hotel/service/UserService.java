@@ -27,7 +27,7 @@ public class UserService {
         User user = new User();
         updateUserFromDTO(user, userRequest);
         user.setPassword(passwordEncoder.encode(userRequest.password()));
-
+        
         User savedUser = userRepository.save(user);
         return toUserResponseDTO(savedUser);
     }
