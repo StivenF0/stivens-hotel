@@ -15,7 +15,7 @@ public record RoomRequestDTO(
 
     @NotNull(message = "O tipo do quarto não pode ser nulo")
     Long roomTypeId,
-
+    
     @NotNull(message = "O status do quarto não pode ser nulo")
     RoomStatus status
 ) {}
