@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="login.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
 
@@ -19,11 +20,13 @@
             </div>
 
         <div class="right-panel">
-            <div class="form-wrapper">
-                <h1>Stiven's Hotel</h1>
-                <p>Bem vindo ao Stiven's Hotel</p>
+            <div class="form-wrapper flex flex-col items-center gap-5">
+                <div class="flex flex-col items-center gap-15">
+                    <h1>Stiven's Hotel</h1>
+                    <p>Bem vindo ao Stiven's Hotel</p>
+                </div>
 
-                <form action="#">
+                <form class="w-[80%]" action="#">
                     <div class="input-group">
                         <label for="username">Nome de usuário ou email</label>
                         <input type="text" id="username" placeholder="Digite seu nome">
@@ -34,7 +37,15 @@
                         <input type="password" id="password" placeholder="Digite sua senha">
                     </div>
 
-                    <button type="submit" class="login-button">Entrar</button>
+                    <div class="flex flex-col items-center w-full">
+                        <div class="flex flex-row justify-center gap-1 items-center w-full">
+                            <hr class="w-[50%]"> X <hr class="w-[50%]">
+                        </div>
+                        <button type="submit" class="login-button">Entrar</button>
+                        <div class="flex flex-row justify-center gap-1 items-center w-full">
+                            <hr class="w-[50%]"> X <hr class="w-[50%]">
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
