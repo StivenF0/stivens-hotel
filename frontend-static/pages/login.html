@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Stiven's Hotel</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
+    ></script>
+
+    <style type="text/tailwindcss">
+      @theme {
+        --color-background: #f5f1e9; /* Cor de fundo do painel esquerdo */
+        --color-foreground: #a1988e; /* Cor do texto secundário (labels, placeholders) */
+        --color-tertiary: #fdfbf6;
+
+        --color-primary: #eae7e2; /* Cor de fundo do container principal */
+        --color-secondary: #4a403a; /* Cor do fundo do body, título e inputs */
+
+        --color-success: #2a5b4f; /* Cor do botão e foco do input */
+        --color-danger: #8c484e;
+        --color-info: #6b9ac4;
+        --color-warning: #d88c72;
+
+        --color-green-light: #a3bca7;
+        --color-yellow-light: #e8d5a3;
+      }
+    </style>
+  </head>
+  <body
+    class="font-['Poppins'] bg-secondary flex items-center justify-center min-h-screen"
+  >
+    <div
+      class="w-[1500px] min-h-[650px] max-w-[99%] flex bg-primary shadow-[0_10px_30px_rgba(0,0,0,0.1)] rounded-[10px] overflow-hidden"
+    >
+      <div
+        class="basis-1/2 bg-[url('./png/ilustracao.png')] bg-background bg-contain bg-no-repeat bg-center"
+      ></div>
+
+      <div
+        class="basis-1/2 py-[60px] px-[50px] flex items-center justify-center"
+      >
+        <div class="w-full flex flex-col items-center">
+          <div class="flex flex-col items-center">
+            <h1 class="mb-[10px] text-[28px] font-bold text-secondary">
+              Stiven's Hotel
+            </h1>
+            <p class="mb-10 text-base text-foreground">
+              Bem vindo ao Stiven's Hotel
+            </p>
+          </div>
+
+          <form class="w-[80%]" action="#">
+            <div class="mb-[30px]">
+              <label
+                for="username"
+                class="block text-xs text-foreground mb-[5px]"
+                >Nome de usuário ou email</label
+              >
+              <input
+                type="text"
+                id="username"
+                placeholder="Digite seu nome"
+                class="w-full border-b border-foreground bg-transparent py-[5px] text-base text-secondary focus:outline-none focus:border-success placeholder:text-foreground/70"
+              />
+            </div>
+
+            <div class="mb-[30px]">
+              <label
+                for="password"
+                class="block text-xs text-foreground mb-[5px]"
+                >Senha</label
+              >
+              <input
+                type="password"
+                id="password"
+                placeholder="Digite sua senha"
+                class="w-full border-b border-foreground bg-transparent py-[5px] text-base text-secondary focus:outline-none focus:border-success placeholder:text-foreground/70"
+              />
+            </div>
+
+            <div class="flex flex-col items-center w-full">
+              <div class="flex items-center w-full">
+                <hr class="flex-grow border-t border-foreground" />
+                <span class="mx-4 font-bold text-foreground">X</span>
+                <hr class="flex-grow border-t border-foreground" />
+              </div>
+
+              <button
+                type="submit"
+                class="w-[40%] p-3 my-6 border-none rounded-2xl bg-success text-white text-2xl font-medium cursor-pointer transition-all duration-300 ease-in-out hover:brightness-90"
+              >
+                Entrar
+              </button>
+
+              <div class="flex items-center w-full">
+                <hr class="flex-grow border-t border-foreground" />
+                <span class="mx-4 font-bold text-foreground">X</span>
+                <hr class="flex-grow border-t border-foreground" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
