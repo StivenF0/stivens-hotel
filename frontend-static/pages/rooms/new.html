@@ -41,7 +41,7 @@
     <header class="w-full bg-secondary py-4 px-6 flex justify-between">
       <div class="flex gap-2 items-center justify-center">
         <div class="w-12 h-12">
-          <img src="./svg/favicon.svg" alt="Logo" />
+          <img src="../svg/favicon.svg" alt="Logo" />
         </div>
         <h1
           class="text-foreground font-[Poppins,sans-serif] font-semibold text-3xl"
@@ -54,7 +54,7 @@
           Olá, <span class="font-medium">Isaul!</span>
         </div>
         <div class="w-12 h-12">
-          <img src="./svg/user_icon.svg" alt="user_icon" />
+          <img src="../svg/user_icon.svg" alt="user_icon" />
         </div>
       </div>
     </header>
@@ -66,12 +66,13 @@
           <div class="flex justify-between items-center">
             <h1 class="font-bold font-[Poppins] text-5xl py-6">Quartos</h1>
             <div class="">
-              <button
+              <a
+                href="./new.html"
                 class="flex gap-3 cursor-pointer bg-green-light px-3 py-2 font-[Montserrat] font-semibold text-2xl text-white rounded-xl"
               >
-                <img src="./svg/add_icon.svg" alt="" />
+                <img src="../svg/add_icon.svg" alt="" />
                 Adicionar novo quarto
-              </button>
+              </a>
             </div>
           </div>
           <!-- Searchbar -->
@@ -83,7 +84,7 @@
             <button
               class="bg-info text-tertiary text-3xl flex items-center justify-center gap-3 font-semibold px-4 py-2 rounded-r-2xl cursor-pointer"
             >
-              <img src="./svg/search_icon.svg" alt="" />
+              <img src="../svg/search_icon.svg" alt="" />
               <div>Pesquisar</div>
             </button>
           </div>
@@ -213,7 +214,7 @@
           class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer"
         >
           <div class="w-8 h-8">
-            <img src="./svg/dashboard_icon.svg" alt="dashboard_icon" />
+            <img src="../svg/dashboard_icon.svg" alt="dashboard_icon" />
           </div>
           <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
             Dashboard
@@ -224,7 +225,7 @@
           class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer"
         >
           <div class="w-8 h-8">
-            <img src="./svg/reservas_icon.svg" alt="reservas_icon" />
+            <img src="../svg/reservas_icon.svg" alt="reservas_icon" />
           </div>
           <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
             Reservas
@@ -235,7 +236,7 @@
           class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer"
         >
           <div class="w-8 h-8">
-            <img src="./svg/hospedes_icon.svg" alt="hospedes_icon" />
+            <img src="../svg/hospedes_icon.svg" alt="hospedes_icon" />
           </div>
           <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
             Hóspedes
@@ -246,7 +247,7 @@
           class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer"
         >
           <div class="w-8 h-8">
-            <img src="./svg/key_icon.svg" alt="key_icon" />
+            <img src="../svg/key_icon.svg" alt="key_icon" />
           </div>
           <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
             Quartos
@@ -254,5 +255,57 @@
         </a>
       </div>
     </main>
+    <div class="absolute inset-0 bg-[#4e4e4e]/40 grid place-items-center">
+      <div
+        class="w-[896px] h-[576px] bg-foreground rounded-xl overflow-hidden border"
+      >
+        <div
+          class="w-full h-19 bg-secondary px-4 flex justify-between items-center shadow-sm"
+        >
+          <h2 class="text-white font-[Montserrat] font-regular text-3xl">
+            Adicionar Novo Quarto
+          </h2>
+          <a href="./index.html">
+            <img src="../svg/exit_icon.svg" alt="exit_icon" />
+          </a>
+        </div>
+        <form action="" class="px-8 font-[Montserrat] font-semibold text-2xl">
+          <label>
+            <p class="mt-4">Código <span class="text-danger">*</span></p>
+            <input
+              class="rounded-xl bg-tertiary w-full px-3 py-2 font-medium text-xl mt-2 border"
+              name="code"
+              type="text"
+            />
+          </label>
+          <label>
+            <p class="mt-4">Tipo <span class="text-danger">*</span></p>
+            <input
+              class="rounded-xl bg-tertiary w-full px-3 py-2 font-medium text-xl mt-2 border"
+              name="type"
+              type="text"
+            />
+          </label>
+          <label>
+            <p class="mt-4">Status <span class="text-danger">*</span></p>
+            <select
+              class="rounded-xl bg-tertiary w-1/3 px-3 py-2 font-medium text-xl mt-2 border"
+              name="code"
+            >
+              <option>Disponível</option>
+              <option>Limpeza</option>
+              <option>Manutenção</option>
+            </select>
+          </label>
+          <div class="p-12"></div>
+          <button
+            class="flex gap-3 cursor-pointer bg-green-light px-3 py-2 font-[Montserrat] font-semibold text-2xl text-white rounded-xl ml-auto"
+          >
+            <img src="../svg/add_icon.svg" alt="" />
+            Adicionar novo quarto
+          </button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
