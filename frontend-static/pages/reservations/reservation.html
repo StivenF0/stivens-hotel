@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservas</title>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style type="text/tailwindcss">
+      @theme {
+        --color-background: #f5f1e9;
+        --color-foreground: #a1988e;
+        --color-tertiary: #fdfbf6;
+
+        --color-primary: #eae7e2;
+        --color-secondary: #4a403a;
+
+        --color-success: #2a5b4f;
+        --color-danger: #8c484e;
+        --color-info: #6b9ac4;
+        --color-warning: #d88c72;
+
+        --color-green-light: #a3bca7;
+        --color-yellow-light: #e8d5a3;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="w-full bg-secondary py-4 px-6 flex justify-between">
+      <div class="flex gap-2 items-center justify-center">
+        <div class="w-12 h-12">
+          <img src="../svg/favicon.svg" alt="Logo" />
+        </div>
+        <h1
+          class="text-foreground font-[Poppins,sans-serif] font-semibold text-3xl"
+        >
+          Stiven's Hotel
+        </h1>
+      </div>
+      <div class="flex items-center justify-center gap-2">
+        <div class="text-2xl text-primary font-light">
+          Olá, <span class="font-medium">Isaul!</span>
+        </div>
+        <div class="w-12 h-12">
+          <img src="../svg/user_icon.svg" alt="user_icon" />
+        </div>
+      </div>
+    </header>
+    <main class="grid flex-1 grid-cols-[1fr_20rem]">
+      <!-- Content Section -->
+      <div class="bg-background px-8">
+        <div class="h-5 w-full max-w-7xl mx-auto flex flex-col min-h-full">
+          <div class="flex justify-between items-center">
+            <h1 class="font-bold font-[Poppins] text-5xl pt-6 pb-4">
+              Reserva #1076
+            </h1>
+            <div
+              class="flex gap-4 font-[Montserrat] font-semibold text-2xl text-white underline"
+            >
+              <a
+                href="#"
+                class="flex gap-3 cursor-pointer bg-success px-3 py-2 rounded-xl"
+              >
+                Realizar check-in
+              </a>
+              <a
+                href="#"
+                class="flex gap-3 cursor-pointer bg-danger px-3 py-2 rounded-xl"
+              >
+                Realizar check-out
+              </a>
+            </div>
+          </div>
+          <button
+            href="#"
+            class="flex gap-3 cursor-pointer bg-success px-3 py-2 rounded-xl w-max text-white font-[Montserrat] text-2xl font-semibold"
+          >
+            Confirmado
+          </button>
+          <hr class="my-5 bg-foreground" />
+          <h2 class="font-[Montserrat] font-bold text-3xl">
+            Informações do Hóspede
+          </h2>
+          <hr class="my-5 bg-foreground" />
+          <!-- Guest Info -->
+          <div class="grid grid-cols-2 font-[Montserrat] gap-y-12 mb-10">
+            <div>
+              <h3 class="font-bold text-2xl">Nome:</h3>
+              <p class="font-medium text-xl">Antônio Weine de Souza Silva</p>
+            </div>
+            <div>
+              <h3 class="font-bold text-2xl">Telefone:</h3>
+              <p class="font-medium text-xl">(84) 99999-9999</p>
+            </div>
+            <div>
+              <h3 class="font-bold text-2xl">CPF:</h3>
+              <p class="font-medium text-xl">333.333.333-33</p>
+            </div>
+          </div>
+          <!-- Entry details -->
+          <h2 class="font-[Montserrat] font-bold text-3xl">
+            Detalhes de Entrada
+          </h2>
+          <hr class="my-5 bg-foreground" />
+          <div class="grid grid-cols-2 font-[Montserrat] gap-y-12 mb-10">
+            <div>
+              <h3 class="font-bold text-2xl">Data de Check-In:</h3>
+              <p class="font-medium text-xl">10/09/2025</p>
+            </div>
+            <div>
+              <h3 class="font-bold text-2xl">Data de Check-Out:</h3>
+              <p class="font-medium text-xl">12/09/2025</p>
+            </div>
+            <div>
+              <h3 class="font-bold text-2xl">Pessoas:</h3>
+              <p class="font-medium text-xl">2 pessoas</p>
+            </div>
+            <div>
+              <h3 class="font-bold text-2xl">Valor Total:</h3>
+              <p class="font-medium text-xl">R$ 1,250.00</p>
+            </div>
+          </div>
+          <!-- Room Details -->
+          <h2 class="font-[Montserrat] font-bold text-3xl">
+            Informações do Quarto
+          </h2>
+          <hr class="my-5 bg-foreground" />
+          <div class="grid grid-cols-2 font-[Montserrat] gap-y-12 mb-10">
+            <div>
+              <h3 class="font-bold text-2xl">Código do Quarto:</h3>
+              <p class="font-medium text-xl">E-10</p>
+            </div>
+            <div>
+              <h3 class="font-bold text-2xl">Tipo:</h3>
+              <p class="font-medium text-xl">Suíte de Luxo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Sidebar -->
+      <div class="flex flex-col bg-foreground p-4">
+        <!-- Nav-Link: Dashboard -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer"
+        >
+          <div class="w-8 h-8">
+            <img src="../svg/dashboard_icon.svg" alt="dashboard_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Dashboard
+          </p>
+        </a>
+        <!-- Nav-Link: Reservas -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer"
+        >
+          <div class="w-8 h-8">
+            <img src="../svg/reservas_icon.svg" alt="reservas_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Reservas
+          </p>
+        </a>
+        <!-- Nav-Link: Hóspedes -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer"
+        >
+          <div class="w-8 h-8">
+            <img src="../svg/hospedes_icon.svg" alt="hospedes_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Hóspedes
+          </p>
+        </a>
+        <!-- Nav-Link: Quartos -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer"
+        >
+          <div class="w-8 h-8">
+            <img src="../svg/key_icon.svg" alt="key_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Quartos
+          </p>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>
