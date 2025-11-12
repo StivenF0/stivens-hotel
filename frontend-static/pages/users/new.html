@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Usuários</title>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
+    ></script>
+    <link rel="icon" type="image/jpg" href="./../../img/stivensHotelLogo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style type="text/tailwindcss">
+      @theme {
+        --color-background: #f5f1e9;
+        --color-foreground: #a1988e;
+        --color-tertiary: #fdfbf6;
+
+        --color-primary: #eae7e2;
+        --color-secondary: #4a403a;
+
+        --color-success: #2a5b4f;
+        --color-danger: #8c484e;
+        --color-info: #6b9ac4;
+        --color-warning: #d88c72;
+
+        --color-green-light: #a3bca7;
+        --color-yellow-light: #e8d5a3;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="w-full bg-secondary py-4 px-6 flex justify-between">
+      <div class="flex gap-2 items-center justify-center">
+        <div class="w-12 h-12">
+          <img src="../svg/favicon.svg" alt="Logo" />
+        </div>
+        <h1
+          class="text-foreground font-[Poppins,sans-serif] font-semibold text-3xl"
+        >
+          Stiven's Hotel
+        </h1>
+      </div>
+      <div class="flex items-center justify-center gap-2">
+        <div class="text-2xl text-primary font-light">
+          Olá, <span class="font-medium">Isaul!</span>
+        </div>
+        <div class="w-12 h-12">
+          <img src="../svg/user_icon.svg" alt="user_icon" />
+        </div>
+      </div>
+    </header>
+    <main class="grid flex-1 grid-cols-[1fr_20rem] pointer-events-none">
+      <!-- Content Section -->
+      <div class="bg-background px-8">
+        <div class="h-5 w-full max-w-7xl mx-auto flex flex-col min-h-full">
+          <div class="flex justify-between items-center">
+            <h1 class="font-bold font-[Poppins] text-5xl py-6">Gerenciamento de Usuários</h1>
+            <div class="">
+              <a
+                href="./new.html"
+                class="flex gap-3 cursor-pointer bg-green-light px-3 py-2 font-[Montserrat] font-semibold text-2xl text-white rounded-xl"
+              >
+                <img src="../svg/add_icon.svg" alt="" />
+                Adicionar novo usuário
+              </a>
+            </div>
+          </div>
+
+          <!-- Searchbar -->
+          <div class="mt-4 w-full grid grid-cols-[1fr_300px]">
+            <input
+              class="border border-foreground bg-tertiary text-2xl px-4 py-3 rounded-l-2xl"
+              type="text"
+            />
+            <button
+              class="bg-info text-tertiary text-3xl flex items-center justify-center gap-3 font-semibold px-4 py-2 rounded-r-2xl cursor-pointer"
+            >
+              <img src="../svg/search_icon.svg" alt="" />
+              <div>Pesquisar</div>
+            </button>
+          </div>
+
+          <!-- Table -->
+          <table
+            class="mt-12 font-[Montserrat] font-semibold border border-foreground"
+          >
+            <thead class="text-3xl border-b border-foreground">
+              <th class="py-3 border-x border-foreground">Nome Completo</th>
+              <th class="py-3 border-x border-foreground">Função</th>
+              <th class="py-3 border-x border-foreground">Ações</th>
+            </thead>
+            <tbody class="text-2xl">
+              <!-- Row example -->
+              <tr class="text-center bg-tertiary">
+                <td class="py-3 border-x border-foreground">Stiven Felipe Câmara Fonseca</td>
+                <td class="py-3 border-x border-foreground">
+                    <div class="w-max mx-auto rounded-2xl bg-danger text-white px-3 py-1">
+                        Admin
+                    </div>
+                </td>
+                <td
+                  class="py-3 border-x border-foreground"
+                  class="flex items-center justify-center gap-5"
+                >
+                    <button class="cursor-pointer">
+                        <a href="./edit.html">
+                            <img
+                                src="../svg/edit_brown_icon.svg"
+                                alt="edit_brown_icon"
+                            />
+                        </a>
+                    </button>
+                    <button class="cursor-pointer">
+                        <a href="./delete.html">
+                            <svg width="28" height="30" viewBox="0 0 28 30" fill="none" class="text-danger" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_67_395)">
+                                    <path d="M10.9087 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16.3638 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M23.1817 6.81818V25.9091C23.1817 26.6324 22.8944 27.3261 22.3829 27.8376C21.8715 28.349 21.1778 28.6364 20.4545 28.6364H6.81809C6.09478 28.6364 5.40108 28.349 4.88962 27.8376C4.37816 27.3261 4.09082 26.6324 4.09082 25.9091V6.81818" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.36377 6.81818H25.9092" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8.18213 6.81819V4.09092C8.18213 3.3676 8.46947 2.67391 8.98093 2.16245C9.49239 1.65098 10.1861 1.36365 10.9094 1.36365H16.3639C17.0873 1.36365 17.781 1.65098 18.2924 2.16245C18.8039 2.67391 19.0912 3.3676 19.0912 4.09092V6.81819" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_67_395">
+                                        <rect width="27.2727" height="30" fill="currentColor"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </button>
+                </td>
+              </tr>
+              <!-- Row repetitions -->
+              <tr class="text-center bg-tertiary">
+                <td class="py-3 border-x border-foreground">Stiven Felipe Câmara Fonseca</td>
+                <td class="py-3 border-x border-foreground">
+                    <div class="w-max mx-auto rounded-2xl bg-info text-white px-3 py-1">
+                        Recepcionista
+                    </div>
+                </td>
+                <td
+                  class="py-3 border-x border-foreground"
+                  class="flex items-center justify-center gap-5"
+                >
+                    <button class="cursor-pointer">
+                        <a href="./edit.html">
+                            <img
+                                src="../svg/edit_brown_icon.svg"
+                                alt="edit_brown_icon"
+                            />
+                        </a>
+                    </button>
+                    <button class="cursor-pointer">
+                        <a href="./delete.html">
+                            <svg width="28" height="30" viewBox="0 0 28 30" fill="none" class="text-danger" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_67_395)">
+                                    <path d="M10.9087 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16.3638 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M23.1817 6.81818V25.9091C23.1817 26.6324 22.8944 27.3261 22.3829 27.8376C21.8715 28.349 21.1778 28.6364 20.4545 28.6364H6.81809C6.09478 28.6364 5.40108 28.349 4.88962 27.8376C4.37816 27.3261 4.09082 26.6324 4.09082 25.9091V6.81818" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.36377 6.81818H25.9092" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8.18213 6.81819V4.09092C8.18213 3.3676 8.46947 2.67391 8.98093 2.16245C9.49239 1.65098 10.1861 1.36365 10.9094 1.36365H16.3639C17.0873 1.36365 17.781 1.65098 18.2924 2.16245C18.8039 2.67391 19.0912 3.3676 19.0912 4.09092V6.81819" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_67_395">
+                                        <rect width="27.2727" height="30" fill="currentColor"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </button>
+                </td>
+              </tr>
+              <tr class="text-center bg-tertiary">
+                <td class="py-3 border-x border-foreground">Stiven Felipe Câmara Fonseca</td>
+                <td class="py-3 border-x border-foreground">
+                    <div class="w-max mx-auto rounded-2xl bg-danger text-white px-3 py-1">
+                        Admin
+                    </div>
+                </td>
+                <td
+                  class="py-3 border-x border-foreground"
+                  class="flex items-center justify-center gap-5"
+                >
+                    <button class="cursor-pointer">
+                        <a href="./edit.html">
+                            <img
+                                src="../svg/edit_brown_icon.svg"
+                                alt="edit_brown_icon"
+                            />
+                        </a>
+                    </button>
+                    <button class="cursor-pointer">
+                        <a href="./delete.html">
+                            <svg width="28" height="30" viewBox="0 0 28 30" fill="none" class="text-danger" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_67_395)">
+                                    <path d="M10.9087 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16.3638 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M23.1817 6.81818V25.9091C23.1817 26.6324 22.8944 27.3261 22.3829 27.8376C21.8715 28.349 21.1778 28.6364 20.4545 28.6364H6.81809C6.09478 28.6364 5.40108 28.349 4.88962 27.8376C4.37816 27.3261 4.09082 26.6324 4.09082 25.9091V6.81818" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.36377 6.81818H25.9092" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8.18213 6.81819V4.09092C8.18213 3.3676 8.46947 2.67391 8.98093 2.16245C9.49239 1.65098 10.1861 1.36365 10.9094 1.36365H16.3639C17.0873 1.36365 17.781 1.65098 18.2924 2.16245C18.8039 2.67391 19.0912 3.3676 19.0912 4.09092V6.81819" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_67_395">
+                                        <rect width="27.2727" height="30" fill="currentColor"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </button>
+                </td>
+              </tr>
+              <tr class="text-center bg-tertiary">
+                <td class="py-3 border-x border-foreground">Stiven Felipe Câmara Fonseca</td>
+                <td class="py-3 border-x border-foreground">
+                    <div class="w-max mx-auto rounded-2xl bg-info text-white px-3 py-1">
+                        Recepcionista
+                    </div>
+                </td>
+                <td
+                  class="py-3 border-x border-foreground"
+                  class="flex items-center justify-center gap-5"
+                >
+                    <button class="cursor-pointer">
+                        <a href="./edit.html">
+                            <img
+                                src="../svg/edit_brown_icon.svg"
+                                alt="edit_brown_icon"
+                            />
+                        </a>
+                    </button>
+                    <button class="cursor-pointer">
+                        <a href="./delete.html">
+                            <svg width="28" height="30" viewBox="0 0 28 30" fill="none" class="text-danger" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_67_395)">
+                                    <path d="M10.9087 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16.3638 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M23.1817 6.81818V25.9091C23.1817 26.6324 22.8944 27.3261 22.3829 27.8376C21.8715 28.349 21.1778 28.6364 20.4545 28.6364H6.81809C6.09478 28.6364 5.40108 28.349 4.88962 27.8376C4.37816 27.3261 4.09082 26.6324 4.09082 25.9091V6.81818" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.36377 6.81818H25.9092" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8.18213 6.81819V4.09092C8.18213 3.3676 8.46947 2.67391 8.98093 2.16245C9.49239 1.65098 10.1861 1.36365 10.9094 1.36365H16.3639C17.0873 1.36365 17.781 1.65098 18.2924 2.16245C18.8039 2.67391 19.0912 3.3676 19.0912 4.09092V6.81819" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_67_395">
+                                        <rect width="27.2727" height="30" fill="currentColor"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </button>
+                </td>
+              </tr>
+              <tr class="text-center bg-tertiary">
+                <td class="py-3 border-x border-foreground">Stiven Felipe Câmara Fonseca</td>
+                <td class="py-3 border-x border-foreground">
+                    <div class="w-max mx-auto rounded-2xl bg-danger text-white px-3 py-1">
+                        Admin
+                    </div>
+                </td>
+                <td
+                  class="py-3 border-x border-foreground"
+                  class="flex items-center justify-center gap-5"
+                >
+                    <button class="cursor-pointer">
+                        <a href="./edit.html">
+                            <img
+                                src="../svg/edit_brown_icon.svg"
+                                alt="edit_brown_icon"
+                            />
+                        </a>
+                    </button>
+                    <button class="cursor-pointer">
+                        <a href="./delete.html">
+                            <svg width="28" height="30" viewBox="0 0 28 30" fill="none" class="text-danger" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_67_395)">
+                                    <path d="M10.9087 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16.3638 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M23.1817 6.81818V25.9091C23.1817 26.6324 22.8944 27.3261 22.3829 27.8376C21.8715 28.349 21.1778 28.6364 20.4545 28.6364H6.81809C6.09478 28.6364 5.40108 28.349 4.88962 27.8376C4.37816 27.3261 4.09082 26.6324 4.09082 25.9091V6.81818" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.36377 6.81818H25.9092" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8.18213 6.81819V4.09092C8.18213 3.3676 8.46947 2.67391 8.98093 2.16245C9.49239 1.65098 10.1861 1.36365 10.9094 1.36365H16.3639C17.0873 1.36365 17.781 1.65098 18.2924 2.16245C18.8039 2.67391 19.0912 3.3676 19.0912 4.09092V6.81819" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_67_395">
+                                        <rect width="27.2727" height="30" fill="currentColor"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </button>
+                </td>
+              </tr>
+              <tr class="text-center bg-tertiary">
+                <td class="py-3 border-x border-foreground">Stiven Felipe Câmara Fonseca</td>
+                <td class="py-3 border-x border-foreground">
+                    <div class="w-max mx-auto rounded-2xl bg-danger text-white px-3 py-1">
+                        Admin
+                    </div>
+                </td>
+                <td
+                  class="py-3 border-x border-foreground"
+                  class="flex items-center justify-center gap-5"
+                >
+                    <button class="cursor-pointer">
+                        <a href="./edit.html">
+                            <img
+                                src="../svg/edit_brown_icon.svg"
+                                alt="edit_brown_icon"
+                            />
+                        </a>
+                    </button>
+                    <button class="cursor-pointer">
+                        <a href="./delete.html">
+                            <svg width="28" height="30" viewBox="0 0 28 30" fill="none" class="text-danger" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_67_395)">
+                                    <path d="M10.9087 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16.3638 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M23.1817 6.81818V25.9091C23.1817 26.6324 22.8944 27.3261 22.3829 27.8376C21.8715 28.349 21.1778 28.6364 20.4545 28.6364H6.81809C6.09478 28.6364 5.40108 28.349 4.88962 27.8376C4.37816 27.3261 4.09082 26.6324 4.09082 25.9091V6.81818" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.36377 6.81818H25.9092" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8.18213 6.81819V4.09092C8.18213 3.3676 8.46947 2.67391 8.98093 2.16245C9.49239 1.65098 10.1861 1.36365 10.9094 1.36365H16.3639C17.0873 1.36365 17.781 1.65098 18.2924 2.16245C18.8039 2.67391 19.0912 3.3676 19.0912 4.09092V6.81819" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_67_395">
+                                        <rect width="27.2727" height="30" fill="currentColor"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </button>
+                </td>
+              </tr>
+              <tr class="text-center bg-tertiary">
+                <td class="py-3 border-x border-foreground">Stiven Felipe Câmara Fonseca</td>
+                <td class="py-3 border-x border-foreground">
+                    <div class="w-max mx-auto rounded-2xl bg-danger text-white px-3 py-1">
+                        Admin
+                    </div>
+                </td>
+                <td
+                  class="py-3 border-x border-foreground"
+                  class="flex items-center justify-center gap-5"
+                >
+                    <button class="cursor-pointer">
+                        <a href="./edit.html">
+                            <img
+                                src="../svg/edit_brown_icon.svg"
+                                alt="edit_brown_icon"
+                            />
+                        </a>
+                    </button>
+                    <button class="cursor-pointer">
+                        <a href="./delete.html">
+                            <svg width="28" height="30" viewBox="0 0 28 30" fill="none" class="text-danger" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_67_395)">
+                                    <path d="M10.9087 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16.3638 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M23.1817 6.81818V25.9091C23.1817 26.6324 22.8944 27.3261 22.3829 27.8376C21.8715 28.349 21.1778 28.6364 20.4545 28.6364H6.81809C6.09478 28.6364 5.40108 28.349 4.88962 27.8376C4.37816 27.3261 4.09082 26.6324 4.09082 25.9091V6.81818" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.36377 6.81818H25.9092" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8.18213 6.81819V4.09092C8.18213 3.3676 8.46947 2.67391 8.98093 2.16245C9.49239 1.65098 10.1861 1.36365 10.9094 1.36365H16.3639C17.0873 1.36365 17.781 1.65098 18.2924 2.16245C18.8039 2.67391 19.0912 3.3676 19.0912 4.09092V6.81819" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_67_395">
+                                        <rect width="27.2727" height="30" fill="currentColor"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </button>
+                </td>
+              </tr>
+              <tr class="text-center bg-tertiary">
+                <td class="py-3 border-x border-foreground">Stiven Felipe Câmara Fonseca</td>
+                <td class="py-3 border-x border-foreground">
+                    <div class="w-max mx-auto rounded-2xl bg-info text-white px-3 py-1">
+                        Recepcionista
+                    </div>
+                </td>
+                <td
+                  class="py-3 border-x border-foreground"
+                  class="flex items-center justify-center gap-5"
+                >
+                    <button class="cursor-pointer">
+                        <a href="./edit.html">
+                            <img
+                                src="../svg/edit_brown_icon.svg"
+                                alt="edit_brown_icon"
+                            />
+                        </a>
+                    </button>
+                    <button class="cursor-pointer">
+                        <a href="./delete.html">
+                            <svg width="28" height="30" viewBox="0 0 28 30" fill="none" class="text-danger" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_67_395)">
+                                    <path d="M10.9087 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16.3638 13.6364V21.8182" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M23.1817 6.81818V25.9091C23.1817 26.6324 22.8944 27.3261 22.3829 27.8376C21.8715 28.349 21.1778 28.6364 20.4545 28.6364H6.81809C6.09478 28.6364 5.40108 28.349 4.88962 27.8376C4.37816 27.3261 4.09082 26.6324 4.09082 25.9091V6.81818" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.36377 6.81818H25.9092" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8.18213 6.81819V4.09092C8.18213 3.3676 8.46947 2.67391 8.98093 2.16245C9.49239 1.65098 10.1861 1.36365 10.9094 1.36365H16.3639C17.0873 1.36365 17.781 1.65098 18.2924 2.16245C18.8039 2.67391 19.0912 3.3676 19.0912 4.09092V6.81819" stroke="currentColor" stroke-width="2.72727" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_67_395">
+                                        <rect width="27.2727" height="30" fill="currentColor"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Sidebar -->
+      <div class="flex flex-col bg-foreground p-4">
+        <!-- Nav-Link: Dashboard -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer" href="./../dashboard.html"
+        >
+          <div class="w-8 h-8">
+            <img src="../svg/dashboard_icon.svg" alt="dashboard_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Dashboard
+          </p>
+        </a>
+        <!-- Nav-Link: Reservas -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer" href="./../reservations/index.html"
+        >
+          <div class="w-8 h-8">
+            <img src="../svg/reservas_icon.svg" alt="reservas_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Reservas
+          </p>
+        </a>
+        <!-- Nav-Link: Hóspedes -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer" href="./../guests/index.html"
+        >
+          <div class="w-8 h-8">
+            <img src="../svg/hospedes_icon.svg" alt="hospedes_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Hóspedes
+          </p>
+        </a>
+        <!-- Nav-Link: Quartos -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer" href="./../rooms/index.html"
+        >
+          <div class="w-8 h-8">
+            <img src="../svg/key_icon.svg" alt="key_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Quartos
+          </p>
+        </a>
+        <!-- Nav-Link: Usuários -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer" href="./index.html"
+        >
+          <div class="w-8 h-8">
+            <img class="w-full h-full" src="../svg/user.svg" alt="key_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Usuários
+          </p>
+        </a>
+      </div>
+    </main>
+    <div class="absolute inset-0 bg-[#4e4e4e]/40 grid place-items-center">
+      <div
+        class="w-[896px] h-[400px] bg-foreground rounded-xl overflow-hidden border"
+      >
+        <div
+          class="w-full h-19 bg-secondary px-4 flex justify-between items-center shadow-sm"
+        >
+          <h2 class="text-white font-[Montserrat] font-regular text-3xl">
+            Adicionar Novo Usuário
+          </h2>
+          <a href="./index.html">
+            <img src="../svg/exit_icon.svg" alt="exit_icon" />
+          </a>
+        </div>
+        <form action="" class="px-8 font-[Montserrat] font-semibold text-2xl">
+          <div class="grid grid-cols-2 gap-x-6">
+            <label class="col-span-2">
+              <p class="mt-4">Nome Completo <span class="text-danger">*</span></p>
+              <input
+                class="rounded-xl bg-tertiary w-full px-3 py-2 font-medium text-xl mt-2 border"
+                name="name"
+                type="text"
+                value="Stiven Felipe Câmara Fonseca"
+                required
+              />
+            </label>
+            <label class="col-span-1 col-start-1">
+              <p class="mt-4">Função <span class="text-danger">*</span></p>
+              <select
+                class="rounded-xl bg-tertiary w-full px-3 py-2 font-medium text-xl mt-2 border"
+                name="function"
+              >
+                <option class="text-danger font-semibold">Admin</option>
+                <option class="text-info font-semibold">Recepcionista</option>
+              </select>
+            </label>
+          </div>
+          <div class="flex gap-2 w-full justify-end mt-10">
+            <button
+              class="cursor-pointer bg-green-light px-3 py-2 font-[Montserrat] font-semibold text-2xl text-white rounded-xl"
+            >
+              <a class="flex gap-3" href="./index.html">
+                <img src="../svg/add_icon.svg" alt="" />
+                Adicionar novo usuário
+              </a>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
