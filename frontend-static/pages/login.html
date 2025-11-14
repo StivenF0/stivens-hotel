@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Stiven's Hotel</title>
 
-    <link rel="icon" type="image/jpg" href="./../img/stivensHotelLogo.jpg">
+    <link rel="icon" type="image/jpg" href="./../img/stivensHotelLogo.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -66,16 +66,15 @@
 
           <form class="w-[80%]" action="./dashboard.html">
             <div class="mb-[30px]">
-              <label
-                for="username"
-                class="block text-xs text-foreground mb-[5px]"
-                >Nome de usuário ou email</label
+              <label for="email" class="block text-xs text-foreground mb-[5px]"
+                >Email</label
               >
               <input
                 type="text"
-                id="username"
-                placeholder="Digite seu nome"
+                id="email"
+                placeholder="Digite seu email"
                 class="w-full border-b border-foreground bg-transparent py-[5px] text-base text-secondary focus:outline-none focus:border-success placeholder:text-foreground/70"
+                pattern="^[^@]+@[^@]+\.[^@]+$"
                 required
               />
             </div>
