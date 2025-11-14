@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
+    ></script>
+    <link rel="icon" type="image/jpg" href="./../img/stivensHotelLogo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style type="text/tailwindcss">
+      @theme {
+        --color-background: #f5f1e9;
+        --color-foreground: #a1988e;
+        --color-tertiary: #fdfbf6;
+
+        --color-primary: #eae7e2;
+        --color-secondary: #4a403a;
+
+        --color-success: #2a5b4f;
+        --color-danger: #8c484e;
+        --color-info: #6b9ac4;
+        --color-warning: #d88c72;
+
+        --color-green-light: #a3bca7;
+        --color-yellow-light: #e8d5a3;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="w-full bg-secondary py-4 px-6 flex justify-between">
+      <div class="flex gap-2 items-center justify-center">
+        <div class="w-12 h-12">
+          <img src="./svg/favicon.svg" alt="Logo" />
+        </div>
+        <h1
+          class="text-foreground font-[Poppins,sans-serif] font-semibold text-3xl"
+        >
+          Stiven's Hotel
+        </h1>
+      </div>
+      <div class="flex items-center justify-center gap-2">
+        <div class="text-2xl text-primary font-light">
+          Olá, <span class="font-medium">Isaul!</span>
+        </div>
+        <div class="w-12 h-12">
+          <img src="./svg/user_icon.svg" alt="user_icon" />
+        </div>
+      </div>
+    </header>
+    <main class="grid flex-1 grid-cols-[1fr_20rem]">
+      <!-- Content Section -->
+      <div class="bg-background px-8">
+        <!-- Main container -->
+        <div class="pb-5 w-full max-w-7xl mx-auto">
+          <h1 class="font-bold font-[Poppins] text-5xl py-6">Dashboard</h1>
+          <div
+            class="bg-tertiary w-full p-12 grid grid-cols-2 rounded-4xl h-[380px]"
+          >
+            <!-- Left Side -->
+            <div
+              class="flex flex-col items-center justify-center font-[Montserrat] font-medium text-3xl gap-4"
+            >
+              <h1 class="font-bold font-[Poppins] text-4xl">
+                Resumo de Operação
+              </h1>
+              <div class="flex items-center gap-4 w-[300px]">
+                <div class="h-7 w-7 bg-success border"></div>
+                <p>Disponível</p>
+              </div>
+              <div class="flex items-center gap-4 w-[300px]">
+                <div class="h-7 w-7 bg-danger border"></div>
+                <p>Ocupado</p>
+              </div>
+              <div class="flex items-center gap-4 w-[300px]">
+                <div class="h-7 w-7 bg-info border"></div>
+                <p>Limpeza</p>
+              </div>
+              <div class="flex items-center gap-4 w-[300px]">
+                <div class="h-7 w-7 bg-warning border"></div>
+                <p>Em manutenção</p>
+              </div>
+            </div>
+            <!-- Right Side-->
+            <div class="grid place-items-center">
+              <div
+                class="overflow-hidden rounded-[50%] w-[240px] h-[240px]"
+                style="
+                  background: conic-gradient(
+                    #6b9ac4 0% 16%,
+                    #d88c72 16% 33%,
+                    #8c484e 33% 66%,
+                    #2a5b4f 66% 100%
+                  );
+                "
+              >
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+          <div class="w-full grid grid-cols-2 h-[380px] gap-8 mt-6">
+            <!-- Check-In board -->
+            <div
+              class="flex flex-col items-center justify-center bg-tertiary rounded-4xl px-6 overflow-y-auto font-[Montserrat] gap-4"
+            >
+              <h1 class="font-bold font-[Poppins] text-4xl">
+                Check-ins de hoje
+              </h1>
+              <div class="w-full h-[1px] bg-[#4A4036] opacity-[36%]"></div>
+              <div
+                class="w-full text-3xl font-medium flex justify-between items-center"
+              >
+                <div>Quarto A-10: Isaul Felipe</div>
+                <button
+                  class="px-3 py-2 bg-success text-white font-bold rounded-3xl cursor-pointer"
+                >
+                  Check-In
+                </button>
+              </div>
+              <div
+                class="w-full text-3xl font-medium flex justify-between items-center"
+              >
+                <div>Quarto A-10: Isaul Felipe</div>
+                <button
+                  class="px-3 py-2 bg-success text-white font-bold rounded-3xl cursor-pointer"
+                >
+                  Check-In
+                </button>
+              </div>
+              <div
+                class="w-full text-3xl font-medium flex justify-between items-center"
+              >
+                <div>Quarto A-10: Isaul Felipe</div>
+                <button
+                  class="px-3 py-2 bg-success text-white font-bold rounded-3xl cursor-pointer"
+                >
+                  Check-In
+                </button>
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center justify-center bg-tertiary rounded-4xl px-6 overflow-y-auto font-[Montserrat] gap-4"
+            >
+              <h1 class="font-bold font-[Poppins] text-4xl">
+                Check-outs de hoje
+              </h1>
+              <div class="w-full h-[1px] bg-[#4A4036] opacity-[36%]"></div>
+              <div
+                class="w-full text-3xl font-medium flex justify-between items-center"
+              >
+                <div>Quarto A-10: Isaul Felipe</div>
+                <button
+                  class="px-3 py-2 bg-danger text-white font-bold rounded-3xl cursor-pointer"
+                >
+                  Check-Out
+                </button>
+              </div>
+              <div
+                class="w-full text-3xl font-medium flex justify-between items-center"
+              >
+                <div>Quarto A-10: Isaul Felipe</div>
+                <button
+                  class="px-3 py-2 bg-danger text-white font-bold rounded-3xl cursor-pointer"
+                >
+                  Check-Out
+                </button>
+              </div>
+              <div
+                class="w-full text-3xl font-medium flex justify-between items-center"
+              >
+                <div>Quarto A-10: Isaul Felipe</div>
+                <button
+                  class="px-3 py-2 bg-danger text-white font-bold rounded-3xl cursor-pointer"
+                >
+                  Check-Out
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Sidebar -->
+      <div class="flex flex-col bg-foreground p-4">
+        <!-- Nav-Link: Dashboard -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer" href="./dashboard.html"
+        >
+          <div class="w-8 h-8">
+            <img src="./svg/dashboard_icon.svg" alt="dashboard_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Dashboard
+          </p>
+        </a>
+        <!-- Nav-Link: Reservas -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer" href="./reservations/index.html"
+        >
+          <div class="w-8 h-8">
+            <img src="./svg/reservas_icon.svg" alt="reservas_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Reservas
+          </p>
+        </a>
+        <!-- Nav-Link: Hóspedes -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer" href="./guests/index.html"
+        >
+          <div class="w-8 h-8">
+            <img src="./svg/hospedes_icon.svg" alt="hospedes_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Hóspedes
+          </p>
+        </a>
+        <!-- Nav-Link: Quartos -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer" href="./rooms/index.html"
+        >
+          <div class="w-8 h-8">
+            <img src="./svg/key_icon.svg" alt="key_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Quartos
+          </p>
+        </a>
+        <!-- Nav-Link: Usuários -->
+        <a
+          class="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer" href="./users/index.html"
+        >
+          <div class="w-8 h-8">
+            <img class="w-full h-full" src="./svg/user.svg" alt="key_icon" />
+          </div>
+          <p class="text-2xl font-[Montserrat] font-semibold text-tertiary">
+            Usuários
+          </p>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>
