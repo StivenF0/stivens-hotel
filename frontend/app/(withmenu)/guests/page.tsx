@@ -10,7 +10,7 @@ export default function Guests() {
             href="./new.html"
             className="flex gap-3 cursor-pointer bg-green-light px-3 py-2 font-[Montserrat] font-semibold text-2xl text-white rounded-xl"
           >
-            <img src="../svg/add_icon.svg" alt="" />
+            <img src="/svg/add_icon.svg" alt="" />
             Adicionar novo hóspede
           </a>
         </div>
@@ -23,7 +23,7 @@ export default function Guests() {
           type="text"
         />
         <button className="bg-info text-tertiary text-3xl flex items-center justify-center gap-3 font-semibold px-4 py-2 rounded-r-2xl cursor-pointer">
-          <img src="../svg/search_icon.svg" alt="" />
+          <img src="/svg/search_icon.svg" alt="" />
           <div>Pesquisar</div>
         </button>
       </div>
@@ -49,7 +49,7 @@ export default function Guests() {
             <td className="py-3 border-x border-foreground flex items-center justify-center gap-5">
               <button className="cursor-pointer">
                 <a href="./edit.html">
-                  <img src="../svg/edit_brown_icon.svg" alt="edit_brown_icon" />
+                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
                 </a>
               </button>
               <button className="cursor-pointer">
@@ -119,7 +119,7 @@ export default function Guests() {
             <td className="py-3 border-x border-foreground flex items-center justify-center gap-5">
               <button className="cursor-pointer">
                 <a href="./edit.html">
-                  <img src="../svg/edit_brown_icon.svg" alt="edit_brown_icon" />
+                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
                 </a>
               </button>
               <button className="cursor-pointer">
@@ -188,7 +188,7 @@ export default function Guests() {
             <td className="py-3 border-x border-foreground flex items-center justify-center gap-5">
               <button className="cursor-pointer">
                 <a href="./edit.html">
-                  <img src="../svg/edit_brown_icon.svg" alt="edit_brown_icon" />
+                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
                 </a>
               </button>
               <button className="cursor-pointer">
@@ -257,7 +257,7 @@ export default function Guests() {
             <td className="py-3 border-x border-foreground flex items-center justify-center gap-5">
               <button className="cursor-pointer">
                 <a href="./edit.html">
-                  <img src="../svg/edit_brown_icon.svg" alt="edit_brown_icon" />
+                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
                 </a>
               </button>
               <button className="cursor-pointer">
@@ -326,7 +326,7 @@ export default function Guests() {
             <td className="py-3 border-x border-foreground flex items-center justify-center gap-5">
               <button className="cursor-pointer">
                 <a href="./edit.html">
-                  <img src="../svg/edit_brown_icon.svg" alt="edit_brown_icon" />
+                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
                 </a>
               </button>
               <button className="cursor-pointer">
@@ -395,7 +395,7 @@ export default function Guests() {
             <td className="py-3 border-x border-foreground flex items-center justify-center gap-5">
               <button className="cursor-pointer">
                 <a href="./edit.html">
-                  <img src="../svg/edit_brown_icon.svg" alt="edit_brown_icon" />
+                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
                 </a>
               </button>
               <button className="cursor-pointer">
@@ -464,7 +464,7 @@ export default function Guests() {
             <td className="py-3 border-x border-foreground flex items-center justify-center gap-5">
               <button className="cursor-pointer">
                 <a href="./edit.html">
-                  <img src="../svg/edit_brown_icon.svg" alt="edit_brown_icon" />
+                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
                 </a>
               </button>
               <button className="cursor-pointer">
@@ -533,7 +533,7 @@ export default function Guests() {
             <td className="py-3 border-x border-foreground flex items-center justify-center gap-5">
               <button className="cursor-pointer">
                 <a href="./edit.html">
-                  <img src="../svg/edit_brown_icon.svg" alt="edit_brown_icon" />
+                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
                 </a>
               </button>
               <button className="cursor-pointer">

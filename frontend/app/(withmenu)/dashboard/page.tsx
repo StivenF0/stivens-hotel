@@ -31,7 +31,7 @@ export default function Dashboard() {
             className="overflow-hidden rounded-[50%] w-60 h-60"
             style={{
               background:
-                "conic-gradient(#6b9ac4 0% 16%, #d88c72 16% 33%, #8c484e 33% 66%, #2a5b4f 66% 100%);",
+                "conic-gradient(#6b9ac4 0% 16%, #d88c72 16% 33%, #8c484e 33% 66%, #2a5b4f 66% 100%)",
             }}
           >
             <div></div>
