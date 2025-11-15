@@ -15,7 +15,7 @@ export default function Login() {
       <div className="basis-1/2 py-[60px] px-[50px] flex items-center justify-center">
         <div className="w-full flex flex-col items-center">
           <div className="flex flex-col items-center">
-            <h1 className="mb-[10px] text-[28px] font-bold text-secondary">
+            <h1 className="mb-2.5 text-[28px] font-bold text-secondary">
               Stiven's Hotel
             </h1>
             <p className="mb-10 text-base text-foreground">
@@ -56,9 +56,9 @@ export default function Login() {
             </div>
             <div className="flex flex-col items-center w-full">
               <div className="flex items-center w-full">
-                <hr className="flex-grow border-t border-foreground" />
+                <hr className="grow border-t border-foreground" />
                 <span className="mx-4 font-bold text-foreground">X</span>
-                <hr className="flex-grow border-t border-foreground" />
+                <hr className="grow border-t border-foreground" />
               </div>
               <button
                 type="submit"
@@ -67,9 +67,9 @@ export default function Login() {
                 Entrar
               </button>
               <div className="flex items-center w-full">
-                <hr className="flex-grow border-t border-foreground" />
+                <hr className="grow border-t border-foreground" />
                 <span className="mx-4 font-bold text-foreground">X</span>
-                <hr className="flex-grow border-t border-foreground" />
+                <hr className="grow border-t border-foreground" />
               </div>
             </div>
           </form>
