@@ -12,7 +12,7 @@ export default function LoginLayout({
 }>) {
   return (
     <section
-      className={`--font-poppins bg-secondary flex items-center justify-center min-h-screen`}
+      className={`--font-poppins font-poppins bg-secondary flex items-center justify-center min-h-screen`}
     >
       {children}
     </section>

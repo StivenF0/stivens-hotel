@@ -39,7 +39,6 @@ export default function Login() {
                 required
               />
             </div>
-
             <div className="mb-[30px]">
               <label
                 htmlFor="password"
@@ -55,21 +54,18 @@ export default function Login() {
                 required
               />
             </div>
-
             <div className="flex flex-col items-center w-full">
               <div className="flex items-center w-full">
                 <hr className="flex-grow border-t border-foreground" />
                 <span className="mx-4 font-bold text-foreground">X</span>
                 <hr className="flex-grow border-t border-foreground" />
               </div>
-
               <button
                 type="submit"
                 className="w-[40%] p-3 my-6 border-none rounded-2xl bg-success text-white text-2xl font-medium cursor-pointer transition-all duration-300 ease-in-out hover:brightness-90"
               >
                 Entrar
               </button>
-
               <div className="flex items-center w-full">
                 <hr className="flex-grow border-t border-foreground" />
                 <span className="mx-4 font-bold text-foreground">X</span>
