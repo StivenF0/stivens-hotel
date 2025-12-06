@@ -249,14 +249,35 @@ Conventional Commits:
 - Fontes: `font-poppins` ou `font-montserrat`
 - Arredondar cards com `rounded-3xl` ou `rounded-2xl`
 
-## 9. Tarefas Pendentes / TODOs
+## 9. Progresso e Tarefas
 
-- [ ] Implementar integração real com API (substituir dados mockados)
-- [ ] Adicionar React Query Provider no layout raiz
-- [ ] Criar serviços de API com Axios
-- [ ] Implementar autenticação com contexto/provider
-- [ ] Componentizar elementos repetidos (SearchBar, Table, StatusBadge)
-- [ ] Implementar formulários de criação/edição com validação
-- [ ] Adicionar loading states e skeletons
-- [ ] Implementar controle de acesso baseado em roles
+### ✅ Concluído
+
+- [x] Criar cliente Axios configurado com interceptors JWT (`lib/api.ts`)
+- [x] Configurar React Query Client com suporte SSR (`lib/query-client.ts`)
+- [x] Criar QueryProvider com DevTools (`providers/query-provider.tsx`)
+- [x] Implementar service de quartos com operações CRUD (`services/room-service.ts`)
+- [x] Criar custom hooks React Query para quartos (`hooks/use-rooms.ts`)
+
+### 📋 Tarefas Pendentes
+
+#### 🧑‍💻 Stiven (Autenticação + Quartos & Reservas)
+
+- [ ] Adicionar React Query Provider no layout raiz (`app/layout.tsx`)
+- [ ] Implementar autenticação com contexto/provider (`providers/auth-provider.tsx`)
+- [ ] Criar service de autenticação (`services/auth-service.ts`)
+- [ ] Integrar página de login com API real
+- [ ] Criar service e hooks para reservas (`services/reservation-service.ts`, `hooks/use-reservations.ts`)
+- [ ] Implementar formulários de quartos e reservas (React Hook Form + Zod)
+- [ ] Integrar páginas `/rooms` e `/reservations` com dados reais da API
+
+#### 👨‍💻 Weine (RBAC + Hóspedes & Usuários)
+
+- [ ] Implementar controle de acesso baseado em roles (RBAC)
 - [ ] Criar páginas de erro (404, 500)
+- [ ] Criar service e hooks para hóspedes (`services/guest-service.ts`, `hooks/use-guests.ts`)
+- [ ] Criar service e hooks para usuários (`services/user-service.ts`, `hooks/use-users.ts`)
+- [ ] Implementar formulários de hóspedes e usuários (React Hook Form + Zod)
+- [ ] Componentizar elementos repetidos (SearchBar, Table, StatusBadge)
+- [ ] Adicionar loading states e skeletons nas páginas
+- [ ] Integrar páginas `/guests` e `/users` com dados reais da API
