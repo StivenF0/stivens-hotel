@@ -3,7 +3,6 @@ package br.com.stivenshotel.stivens_hotel.service;
 import br.com.stivenshotel.stivens_hotel.dto.room.RoomRequestDTO;
 import br.com.stivenshotel.stivens_hotel.dto.room.RoomResponseDTO;
 import br.com.stivenshotel.stivens_hotel.dto.roomtype.RoomTypeResponseDTO;
-import br.com.stivenshotel.stivens_hotel.enums.RoomStatus;
 import br.com.stivenshotel.stivens_hotel.model.Room;
 import br.com.stivenshotel.stivens_hotel.model.RoomType;
 import br.com.stivenshotel.stivens_hotel.repository.RoomRepository;

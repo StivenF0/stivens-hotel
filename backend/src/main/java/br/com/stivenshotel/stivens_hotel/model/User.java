@@ -3,7 +3,6 @@ package br.com.stivenshotel.stivens_hotel.model;
 import br.com.stivenshotel.stivens_hotel.enums.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
