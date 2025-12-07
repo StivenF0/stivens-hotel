@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/providers/query-provider";
+import { AuthProvider } from "@/providers/auth-provider";
 
 const montserrat = Montserrat({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -32,7 +33,9 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${montserrat.variable} antialiased`}
       >
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </QueryProvider>
       </body>
     </html>
   );
