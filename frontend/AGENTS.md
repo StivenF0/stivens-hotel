@@ -263,9 +263,9 @@ Conventional Commits:
 
 #### 🧑‍💻 Stiven (Autenticação + Quartos & Reservas)
 
-- [ ] Adicionar React Query Provider no layout raiz (`app/layout.tsx`)
-- [ ] Implementar autenticação com contexto/provider (`providers/auth-provider.tsx`)
-- [ ] Criar service de autenticação (`services/auth-service.ts`)
+- [x] Adicionar React Query Provider no layout raiz (`app/layout.tsx`)
+- [x] Implementar autenticação com contexto/provider (`providers/auth-provider.tsx`)
+- [x] Criar service de autenticação (`services/auth-service.ts`)
 - [ ] Integrar página de login com API real
 - [ ] Criar service e hooks para reservas (`services/reservation-service.ts`, `hooks/use-reservations.ts`)
 - [ ] Implementar formulários de quartos e reservas (React Hook Form + Zod)
