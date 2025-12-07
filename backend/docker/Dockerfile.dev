@@ -1,0 +1,16 @@
+FROM eclipse-temurin:21-jdk-alpine-3.22
+
+WORKDIR /app
+
+# Copia wrapper e baixa Gradle durante o build
+COPY gradlew .
+COPY gradle ./gradle
+RUN chmod +x ./gradlew && ./gradlew --version
+
+# Copia arquivos de build e baixa dependências
+COPY build.gradle settings.gradle ./
+RUN ./gradlew dependencies --no-daemon || true
+
+EXPOSE 8080
+
+CMD ["./gradlew", "bootRun", "--no-daemon"]
