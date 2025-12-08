@@ -9,7 +9,7 @@ export interface User {
 }
 
 export interface LoginCredentials {
-  email: string;
+  name: string;
   password: string;
 }
 
@@ -26,10 +26,7 @@ const USER_KEY = "user";
 export const authService = {
   // Login
   async login(credentials: LoginCredentials): Promise<LoginResponse> {
-    const response = await api.post<LoginResponse>(
-      "/api/auth/login",
-      credentials
-    );
+    const response = await api.post<LoginResponse>("/auth/login", credentials);
     const { token, user } = response.data;
 
     // Armazena no localStorage
