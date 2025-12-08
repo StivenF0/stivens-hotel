@@ -5,7 +5,8 @@ WORKDIR /app
 # Copia wrapper e baixa Gradle durante o build
 COPY gradlew .
 COPY gradle ./gradle
-RUN chmod +x ./gradlew && ./gradlew --version
+# Converte terminações de linha CRLF para LF (necessário quando desenvolvendo no Windows)
+RUN sed -i 's/\r$//' ./gradlew && chmod +x ./gradlew && ./gradlew --version
 
 # Copia arquivos de build e baixa dependências
 COPY build.gradle settings.gradle ./
@@ -13,4 +14,5 @@ RUN ./gradlew dependencies --no-daemon || true
 
 EXPOSE 8080
 
-CMD ["./gradlew", "bootRun", "--no-daemon"]
+# Usa shell form para aplicar sed antes de executar (necessário pois o volume sobrescreve os arquivos)
+CMD sh -c "sed -i 's/\r$//' ./gradlew && chmod +x ./gradlew && ./gradlew bootRun --no-daemon"
