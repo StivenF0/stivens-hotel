@@ -266,7 +266,7 @@ Conventional Commits:
 - [x] Adicionar React Query Provider no layout raiz (`app/layout.tsx`)
 - [x] Implementar autenticação com contexto/provider (`providers/auth-provider.tsx`)
 - [x] Criar service de autenticação (`services/auth-service.ts`)
-- [ ] Integrar página de login com API real
+- [x] Integrar página de login com API real (RHF + Zod v4)
 - [ ] Criar service e hooks para reservas (`services/reservation-service.ts`, `hooks/use-reservations.ts`)
 - [ ] Implementar formulários de quartos e reservas (React Hook Form + Zod)
 - [ ] Integrar páginas `/rooms` e `/reservations` com dados reais da API
