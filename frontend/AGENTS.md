@@ -12,6 +12,7 @@ O **Stiven's Hotel** é um sistema de gerenciamento hoteleiro (PMS) focado em op
 
 ## 2. Stack Tecnológica (Frontend)
 
+- **Runtime/Package Manager:** Bun (usar `bun add`, `bun install`, `bun run`)
 - **Framework:** Next.js 16.0.3 (App Router)
 - **React:** 19.2.0
 - **Linguagem:** TypeScript 5
@@ -19,6 +20,7 @@ O **Stiven's Hotel** é um sistema de gerenciamento hoteleiro (PMS) focado em op
 - **Cliente HTTP:** Axios 1.13.2
 - **Gerenciamento de Estado Assíncrono:** TanStack React Query 5.90.11
 - **Formulários:** React Hook Form 7.66.1 + Zod 4.1.13 (validação)
+- **Notificações:** react-hot-toast (toasts de sucesso/erro)
 - **Autenticação:** Armazenamento de JWT (LocalStorage/Cookies)
 - **Linting:** ESLint 9 com `eslint-config-next`
 
@@ -275,14 +277,10 @@ Conventional Commits:
 - [x] Adicionar link de "Tipos de Quarto" na sidebar
 - [x] Adicionar modal de edição e exclusão em `/rooms`
 - [x] Adicionar modal de edição e exclusão em `/reservations`
+- [x] Implementar ações de Check-In e Check-Out nas reservas
+- [x] Adicionar confirmação visual (toast) ao criar/editar/excluir com `react-hot-toast`
 
 ### 📋 Tarefas Pendentes
-
-#### 🧑‍💻 Stiven (Quartos & Reservas - Melhorias)
-
-- [ ] Implementar ações de Check-In e Check-Out nas reservas
-- [ ] Adicionar confirmação visual (toast) ao criar/editar/excluir
-- [ ] Implementar filtros avançados (por status, por data)
 
 #### 👨‍💻 Weine (RBAC + Hóspedes & Usuários)
 
