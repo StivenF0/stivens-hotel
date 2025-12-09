@@ -39,10 +39,10 @@ export default function MenuLayout({
       <main className="grid flex-1 grid-cols-[1fr_20rem]">
         {/* Content Section */}
         <div className="bg-background px-8">
-
           {/* ==== Main container (children) ==== */}
-          <div className="pb-5 w-full max-w-7xl mx-auto flex flex-col min-h-full">{children}</div>
-
+          <div className="pb-5 w-full max-w-7xl mx-auto flex flex-col min-h-full">
+            {children}
+          </div>
         </div>
         {/* Sidebar */}
         <div className="flex flex-col bg-foreground p-4">
@@ -116,6 +116,24 @@ export default function MenuLayout({
             </div>
             <p className="text-2xl font-montserrat font-semibold text-tertiary">
               Quartos
+            </p>
+          </Link>
+          {/* Nav-Link: Tipos de Quarto */}
+          <Link
+            className="w-full p-4 flex items-center gap-2 rounded-xl hover:bg-secondary/15 cursor-pointer"
+            href="/room-types"
+          >
+            <div className="w-8 h-8">
+              <Image
+                className="w-full h-full"
+                src="/menu/key_icon.svg"
+                alt="room_types_icon"
+                width={24}
+                height={24}
+              />
+            </div>
+            <p className="text-2xl font-montserrat font-semibold text-tertiary">
+              Tipos de Quarto
             </p>
           </Link>
           {/* Nav-Link: Usuários */}
