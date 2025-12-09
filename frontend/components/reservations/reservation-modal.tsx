@@ -1,12 +1,19 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Modal } from "@/components/ui/modal";
 import { useGuests } from "@/hooks/use-guests";
 import { useRooms } from "@/hooks/use-rooms";
-import { useCreateReservation } from "@/hooks/use-reservations";
+import {
+  useCreateReservation,
+  useUpdateReservation,
+  useDeleteReservation,
+} from "@/hooks/use-reservations";
+import { Reservation } from "@/services/reservation-service";
+import { TrashIcon } from "@/components/ui/trash-icon";
 
 // Schema de validação - form inputs como strings
 const reservationSchema = z.object({
@@ -21,15 +28,27 @@ type ReservationFormData = z.infer<typeof reservationSchema>;
 interface ReservationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  reservation?: Reservation | null;
 }
 
-export function ReservationModal({ isOpen, onClose }: ReservationModalProps) {
+export function ReservationModal({
+  isOpen,
+  onClose,
+  reservation,
+}: ReservationModalProps) {
   const { data: guests, isLoading: loadingGuests } = useGuests();
   const { data: rooms, isLoading: loadingRooms } = useRooms();
   const createReservation = useCreateReservation();
+  const updateReservation = useUpdateReservation();
+  const deleteReservation = useDeleteReservation();
+  const isEditing = !!reservation;
 
-  // Filtra apenas quartos disponíveis
-  const availableRooms = rooms?.filter((room) => room.status === "AVAILABLE");
+  // Filtra quartos disponíveis ou o quarto atual da reserva (para edição)
+  const availableRooms = rooms?.filter(
+    (room) =>
+      room.status === "AVAILABLE" ||
+      (reservation && room.id === reservation.room.id)
+  );
 
   const {
     register,
@@ -40,31 +59,69 @@ export function ReservationModal({ isOpen, onClose }: ReservationModalProps) {
     resolver: zodResolver(reservationSchema),
   });
 
+  // Preenche form quando editando
+  useEffect(() => {
+    if (reservation) {
+      reset({
+        guestId: String(reservation.guest.id),
+        roomId: String(reservation.room.id),
+        checkInDate: reservation.checkInDate,
+        checkOutDate: reservation.checkOutDate,
+      });
+    } else {
+      reset({ guestId: "", roomId: "", checkInDate: "", checkOutDate: "" });
+    }
+  }, [reservation, reset]);
+
   async function onSubmit(data: ReservationFormData) {
     try {
-      await createReservation.mutateAsync({
+      const payload = {
         guestId: Number(data.guestId),
         roomId: Number(data.roomId),
         checkInDate: data.checkInDate,
         checkOutDate: data.checkOutDate,
-      });
-      reset();
-      onClose();
+      };
+
+      if (isEditing && reservation) {
+        await updateReservation.mutateAsync({
+          id: reservation.id,
+          data: payload,
+        });
+      } else {
+        await createReservation.mutateAsync(payload);
+      }
+      handleClose();
     } catch (error) {
-      console.error("Erro ao criar reserva:", error);
+      console.error("Erro ao salvar reserva:", error);
     }
   }
 
   function handleClose() {
-    reset();
+    reset({ guestId: "", roomId: "", checkInDate: "", checkOutDate: "" });
     onClose();
+  }
+
+  async function handleDelete() {
+    if (!reservation) return;
+    if (confirm("Tem certeza que deseja excluir esta reserva?")) {
+      try {
+        await deleteReservation.mutateAsync(reservation.id);
+        handleClose();
+      } catch (error) {
+        console.error("Erro ao excluir reserva:", error);
+      }
+    }
   }
 
   // Formata a data para o input date (YYYY-MM-DD)
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Nova Reserva">
+    <Modal
+      isOpen={isOpen}
+      onClose={handleClose}
+      title={isEditing ? "Editar Reserva" : "Nova Reserva"}
+    >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Hóspede */}
         <div>
@@ -153,15 +210,32 @@ export function ReservationModal({ isOpen, onClose }: ReservationModalProps) {
           </div>
         </div>
 
-        {/* Botão Submit */}
-        <div className="flex justify-end pt-4">
+        {/* Botões de Ação */}
+        <div className="flex justify-between pt-4">
+          {isEditing ? (
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={isSubmitting || deleteReservation.isPending}
+              className="flex items-center gap-2 px-4 py-3 bg-danger/10 text-danger font-semibold rounded-xl hover:bg-danger/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <TrashIcon className="w-5 h-5 text-danger" />
+              {deleteReservation.isPending ? "Excluindo..." : "Excluir"}
+            </button>
+          ) : (
+            <div />
+          )}
           <button
             type="submit"
             disabled={isSubmitting}
             className="flex items-center gap-2 px-6 py-3 bg-green-light text-white font-semibold rounded-xl hover:brightness-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <img src="/svg/add_icon.svg" alt="" className="w-5 h-5" />
-            {isSubmitting ? "Criando..." : "Nova reserva"}
+            {isSubmitting
+              ? "Salvando..."
+              : isEditing
+              ? "Salvar alterações"
+              : "Nova reserva"}
           </button>
         </div>
       </form>

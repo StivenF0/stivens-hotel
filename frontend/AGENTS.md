@@ -273,13 +273,13 @@ Conventional Commits:
 - [x] Integrar página `/reservations` com API real + modal de criação
 - [x] Criar página CRUD de tipos de quarto (`/room-types`) com listagem, criação, edição e exclusão
 - [x] Adicionar link de "Tipos de Quarto" na sidebar
+- [x] Adicionar modal de edição e exclusão em `/rooms`
+- [x] Adicionar modal de edição e exclusão em `/reservations`
 
 ### 📋 Tarefas Pendentes
 
 #### 🧑‍💻 Stiven (Quartos & Reservas - Melhorias)
 
-- [ ] Adicionar modal de edição em `/rooms` (atualmente só tem criação)
-- [ ] Adicionar modal de edição em `/reservations`
 - [ ] Implementar ações de Check-In e Check-Out nas reservas
 - [ ] Adicionar confirmação visual (toast) ao criar/editar/excluir
 - [ ] Implementar filtros avançados (por status, por data)
