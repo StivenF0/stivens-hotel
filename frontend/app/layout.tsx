@@ -3,6 +3,7 @@ import { Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/providers/query-provider";
 import { AuthProvider } from "@/providers/auth-provider";
+import { ToastProvider } from "@/providers/toast-provider";
 
 const montserrat = Montserrat({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -35,6 +36,7 @@ export default function RootLayout({
       >
         <QueryProvider>
           <AuthProvider>{children}</AuthProvider>
+          <ToastProvider />
         </QueryProvider>
       </body>
     </html>

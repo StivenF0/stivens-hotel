@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import {
   roomService,
   CreateRoomDTO,
@@ -43,8 +44,11 @@ export function useCreateRoom() {
   return useMutation({
     mutationFn: (data: CreateRoomDTO) => roomService.create(data),
     onSuccess: () => {
-      // Invalida o cache para recarregar a lista
       queryClient.invalidateQueries({ queryKey: roomKeys.all });
+      toast.success("Quarto criado com sucesso!");
+    },
+    onError: () => {
+      toast.error("Erro ao criar quarto");
     },
   });
 }
@@ -57,11 +61,14 @@ export function useUpdateRoom() {
     mutationFn: ({ id, data }: { id: number; data: UpdateRoomDTO }) =>
       roomService.update(id, data),
     onSuccess: (_, variables) => {
-      // Invalida a lista e o detalhe específico
       queryClient.invalidateQueries({ queryKey: roomKeys.all });
       queryClient.invalidateQueries({
         queryKey: roomKeys.detail(variables.id),
       });
+      toast.success("Quarto atualizado com sucesso!");
+    },
+    onError: () => {
+      toast.error("Erro ao atualizar quarto");
     },
   });
 }
@@ -74,6 +81,10 @@ export function useDeleteRoom() {
     mutationFn: (id: number) => roomService.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: roomKeys.all });
+      toast.success("Quarto excluído com sucesso!");
+    },
+    onError: () => {
+      toast.error("Erro ao excluir quarto");
     },
   });
 }
