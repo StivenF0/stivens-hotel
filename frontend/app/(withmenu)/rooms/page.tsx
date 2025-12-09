@@ -28,11 +28,12 @@ const STATUS_CONFIG: Record<
   },
 };
 
-function RoomCard({ room }: { room: Room }) {
+function RoomCard({ room, onClick }: { room: Room; onClick: () => void }) {
   const config = STATUS_CONFIG[room.status];
 
   return (
     <div
+      onClick={onClick}
       className={`w-[200px] h-[200px] bg-tertiary rounded-3xl shadow-sm border-l-7 ${config.color} grid grid-cols-1 grid-rows-3 p-2 cursor-pointer hover:shadow-md transition-shadow`}
     >
       <div className={`place-self-end w-full text-[38px] ${config.textColor}`}>
@@ -68,6 +69,7 @@ function RoomCardSkeleton() {
 
 export default function RoomsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingRoom, setEditingRoom] = useState<Room | null>(null);
   const [search, setSearch] = useState("");
   const { data: rooms, isLoading, error } = useRooms();
 
@@ -78,12 +80,27 @@ export default function RoomsPage() {
       room.roomType.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  function handleEdit(room: Room) {
+    setEditingRoom(room);
+    setIsModalOpen(true);
+  }
+
+  function handleCloseModal() {
+    setEditingRoom(null);
+    setIsModalOpen(false);
+  }
+
+  function handleOpenNew() {
+    setEditingRoom(null);
+    setIsModalOpen(true);
+  }
+
   return (
     <>
       <div className="flex justify-between items-center">
         <h1 className="font-bold font-poppins text-5xl py-6">Quartos</h1>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleOpenNew}
           className="flex gap-3 cursor-pointer bg-green-light px-3 py-2 font-montserrat font-semibold text-2xl text-white rounded-xl hover:brightness-95 transition-all"
         >
           <img src="/svg/add_icon.svg" alt="" />
@@ -123,7 +140,13 @@ export default function RoomsPage() {
             ))}
           </>
         ) : filteredRooms && filteredRooms.length > 0 ? (
-          filteredRooms.map((room) => <RoomCard key={room.id} room={room} />)
+          filteredRooms.map((room) => (
+            <RoomCard
+              key={room.id}
+              room={room}
+              onClick={() => handleEdit(room)}
+            />
+          ))
         ) : (
           <div className="w-full text-center text-foreground text-xl py-12">
             {search ? "Nenhum quarto encontrado." : "Nenhum quarto cadastrado."}
@@ -132,7 +155,11 @@ export default function RoomsPage() {
       </div>
 
       {/* Modal */}
-      <RoomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <RoomModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        room={editingRoom}
+      />
     </>
   );
 }
