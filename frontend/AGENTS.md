@@ -258,26 +258,38 @@ Conventional Commits:
 - [x] Criar QueryProvider com DevTools (`providers/query-provider.tsx`)
 - [x] Implementar service de quartos com operações CRUD (`services/room-service.ts`)
 - [x] Criar custom hooks React Query para quartos (`hooks/use-rooms.ts`)
-
-### 📋 Tarefas Pendentes
-
-#### 🧑‍💻 Stiven (Autenticação + Quartos & Reservas)
-
 - [x] Adicionar React Query Provider no layout raiz (`app/layout.tsx`)
 - [x] Implementar autenticação com contexto/provider (`providers/auth-provider.tsx`)
 - [x] Criar service de autenticação (`services/auth-service.ts`)
 - [x] Integrar página de login com API real (RHF + Zod v4)
 - [x] Criar service e hooks para reservas (`services/reservation-service.ts`, `hooks/use-reservations.ts`)
-- [ ] Implementar formulários de quartos e reservas (React Hook Form + Zod)
-- [ ] Integrar páginas `/rooms` e `/reservations` com dados reais da API
+- [x] Criar service e hooks para hóspedes (`services/guest-service.ts`, `hooks/use-guests.ts`)
+- [x] Criar service e hooks para tipos de quarto (`services/room-type-service.ts`, `hooks/use-room-types.ts`)
+- [x] Criar componente Modal reutilizável (`components/ui/modal.tsx`)
+- [x] Criar componente TrashIcon (`components/ui/trash-icon.tsx`)
+- [x] Implementar formulário de quartos (RoomModal com RHF + Zod)
+- [x] Implementar formulário de reservas (ReservationModal com RHF + Zod)
+- [x] Integrar página `/rooms` com API real + modal de criação
+- [x] Integrar página `/reservations` com API real + modal de criação
+- [x] Criar página CRUD de tipos de quarto (`/room-types`) com listagem, criação, edição e exclusão
+- [x] Adicionar link de "Tipos de Quarto" na sidebar
+
+### 📋 Tarefas Pendentes
+
+#### 🧑‍💻 Stiven (Quartos & Reservas - Melhorias)
+
+- [ ] Adicionar modal de edição em `/rooms` (atualmente só tem criação)
+- [ ] Adicionar modal de edição em `/reservations`
+- [ ] Implementar ações de Check-In e Check-Out nas reservas
+- [ ] Adicionar confirmação visual (toast) ao criar/editar/excluir
+- [ ] Implementar filtros avançados (por status, por data)
 
 #### 👨‍💻 Weine (RBAC + Hóspedes & Usuários)
 
 - [ ] Implementar controle de acesso baseado em roles (RBAC)
 - [ ] Criar páginas de erro (404, 500)
-- [ ] Criar service e hooks para hóspedes (`services/guest-service.ts`, `hooks/use-guests.ts`)
 - [ ] Criar service e hooks para usuários (`services/user-service.ts`, `hooks/use-users.ts`)
 - [ ] Implementar formulários de hóspedes e usuários (React Hook Form + Zod)
+- [ ] Integrar página `/guests` com API real
+- [ ] Integrar página `/users` com API real
 - [ ] Componentizar elementos repetidos (SearchBar, Table, StatusBadge)
-- [ ] Adicionar loading states e skeletons nas páginas
-- [ ] Integrar páginas `/guests` e `/users` com dados reais da API
