@@ -1,5 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { roomTypeService } from "@/services/room-type-service";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  roomTypeService,
+  CreateRoomTypeDTO,
+  UpdateRoomTypeDTO,
+} from "@/services/room-type-service";
 
 // Query Keys centralizadas
 export const roomTypeKeys = {
@@ -21,5 +25,42 @@ export function useRoomType(id: number) {
     queryKey: roomTypeKeys.detail(id),
     queryFn: () => roomTypeService.getById(id),
     enabled: !!id,
+  });
+}
+
+// Hook para criar tipo de quarto
+export function useCreateRoomType() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CreateRoomTypeDTO) => roomTypeService.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: roomTypeKeys.all });
+    },
+  });
+}
+
+// Hook para atualizar tipo de quarto
+export function useUpdateRoomType() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, data }: { id: number; data: UpdateRoomTypeDTO }) =>
+      roomTypeService.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: roomTypeKeys.all });
+    },
+  });
+}
+
+// Hook para deletar tipo de quarto
+export function useDeleteRoomType() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: number) => roomTypeService.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: roomTypeKeys.all });
+    },
   });
 }
