@@ -20,7 +20,13 @@ function formatDate(dateString: string): string {
   return `${day}/${month}/${year}`;
 }
 
-function ReservationRow({ reservation }: { reservation: Reservation }) {
+function ReservationRow({
+  reservation,
+  onEdit,
+}: {
+  reservation: Reservation;
+  onEdit: (res: Reservation) => void;
+}) {
   const config = STATUS_CONFIG[reservation.status];
 
   return (
@@ -47,7 +53,10 @@ function ReservationRow({ reservation }: { reservation: Reservation }) {
           <button className="cursor-pointer hover:opacity-70 transition-opacity">
             <img src="/svg/info_icon.svg" alt="info_icon" />
           </button>
-          <button className="cursor-pointer hover:opacity-70 transition-opacity">
+          <button
+            onClick={() => onEdit(reservation)}
+            className="cursor-pointer hover:opacity-70 transition-opacity"
+          >
             <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
           </button>
         </div>
@@ -87,6 +96,8 @@ function TableSkeleton() {
 
 export default function ReservationsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingReservation, setEditingReservation] =
+    useState<Reservation | null>(null);
   const [search, setSearch] = useState("");
   const { data: reservations, isLoading, error } = useReservations();
 
@@ -97,12 +108,27 @@ export default function ReservationsPage() {
       res.room.number.toLowerCase().includes(search.toLowerCase())
   );
 
+  function handleEdit(reservation: Reservation) {
+    setEditingReservation(reservation);
+    setIsModalOpen(true);
+  }
+
+  function handleCloseModal() {
+    setEditingReservation(null);
+    setIsModalOpen(false);
+  }
+
+  function handleOpenNew() {
+    setEditingReservation(null);
+    setIsModalOpen(true);
+  }
+
   return (
     <>
       <div className="flex justify-between items-center">
         <h1 className="font-bold font-poppins text-5xl py-6">Reservas</h1>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleOpenNew}
           className="flex gap-3 cursor-pointer bg-green-light px-3 py-2 font-montserrat font-semibold text-2xl text-white rounded-xl hover:brightness-95 transition-all"
         >
           <img src="/svg/add_icon.svg" alt="" />
@@ -148,7 +174,11 @@ export default function ReservationsPage() {
             <TableSkeleton />
           ) : filteredReservations && filteredReservations.length > 0 ? (
             filteredReservations.map((reservation) => (
-              <ReservationRow key={reservation.id} reservation={reservation} />
+              <ReservationRow
+                key={reservation.id}
+                reservation={reservation}
+                onEdit={handleEdit}
+              />
             ))
           ) : (
             <tr>
@@ -168,7 +198,8 @@ export default function ReservationsPage() {
       {/* Modal */}
       <ReservationModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
+        reservation={editingReservation}
       />
     </>
   );
