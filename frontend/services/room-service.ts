@@ -8,23 +8,26 @@ export interface RoomType {
   id: number;
   name: string;
   description?: string;
+  dailyPrice?: number; // BigDecimal no backend
 }
 
 export interface Room {
   id: number;
   number: string;
+  floor: number;
+  status: RoomStatus;
   roomType: RoomType;
-  status: "AVAILABLE" | "OCCUPIED" | "MAINTENANCE" | "CLEANING";
-  floor?: number;
-  pricePerNight?: number;
 }
 
+// Enum alinhado com backend: AVAILABLE, OCCUPIED, CLEANING, MAINTANCE (typo do backend)
+export type RoomStatus = "AVAILABLE" | "OCCUPIED" | "CLEANING" | "MAINTANCE";
+
+// DTO para criar/atualizar quarto (alinhado com RoomRequestDTO)
 export interface CreateRoomDTO {
   number: string;
-  roomType: { id: number };
-  status?: string;
-  floor?: number;
-  pricePerNight?: number;
+  floor: number;
+  roomTypeId: number;
+  status: RoomStatus;
 }
 
 export interface UpdateRoomDTO extends Partial<CreateRoomDTO> {}
