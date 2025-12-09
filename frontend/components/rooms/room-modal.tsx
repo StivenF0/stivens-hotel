@@ -1,20 +1,25 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Modal } from "@/components/ui/modal";
 import { useRoomTypes } from "@/hooks/use-room-types";
-import { useCreateRoom } from "@/hooks/use-rooms";
-import { RoomStatus } from "@/services/room-service";
+import { useCreateRoom, useUpdateRoom, useDeleteRoom } from "@/hooks/use-rooms";
+import { Room, RoomStatus } from "@/services/room-service";
+import { TrashIcon } from "@/components/ui/trash-icon";
 
 // Schema de validação - form inputs como strings
 const roomSchema = z.object({
   number: z.string().min(1, "Código é obrigatório"),
-  floor: z.string().min(1, "Andar é obrigatório").refine(
-    (val) => !isNaN(Number(val)) && Number(val) >= 1,
-    "Andar deve ser maior que 0"
-  ),
+  floor: z
+    .string()
+    .min(1, "Andar é obrigatório")
+    .refine(
+      (val) => !isNaN(Number(val)) && Number(val) >= 1,
+      "Andar deve ser maior que 0"
+    ),
   roomTypeId: z.string().min(1, "Tipo é obrigatório"),
   status: z.enum(["AVAILABLE", "OCCUPIED", "CLEANING", "MAINTANCE"]),
 });
@@ -24,6 +29,7 @@ type RoomFormData = z.infer<typeof roomSchema>;
 interface RoomModalProps {
   isOpen: boolean;
   onClose: () => void;
+  room?: Room | null;
 }
 
 const STATUS_OPTIONS: { value: RoomStatus; label: string }[] = [
@@ -33,9 +39,12 @@ const STATUS_OPTIONS: { value: RoomStatus; label: string }[] = [
   { value: "MAINTANCE", label: "Manutenção" },
 ];
 
-export function RoomModal({ isOpen, onClose }: RoomModalProps) {
+export function RoomModal({ isOpen, onClose, room }: RoomModalProps) {
   const { data: roomTypes, isLoading: loadingTypes } = useRoomTypes();
   const createRoom = useCreateRoom();
+  const updateRoom = useUpdateRoom();
+  const deleteRoom = useDeleteRoom();
+  const isEditing = !!room;
 
   const {
     register,
@@ -49,28 +58,63 @@ export function RoomModal({ isOpen, onClose }: RoomModalProps) {
     },
   });
 
+  // Preenche form quando editando
+  useEffect(() => {
+    if (room) {
+      reset({
+        number: room.number,
+        floor: String(room.floor),
+        roomTypeId: String(room.roomType.id),
+        status: room.status,
+      });
+    } else {
+      reset({ number: "", floor: "", roomTypeId: "", status: "AVAILABLE" });
+    }
+  }, [room, reset]);
+
   async function onSubmit(data: RoomFormData) {
     try {
-      await createRoom.mutateAsync({
+      const payload = {
         number: data.number,
         floor: Number(data.floor),
         roomTypeId: Number(data.roomTypeId),
         status: data.status,
-      });
-      reset();
-      onClose();
+      };
+
+      if (isEditing && room) {
+        await updateRoom.mutateAsync({ id: room.id, data: payload });
+      } else {
+        await createRoom.mutateAsync(payload);
+      }
+      handleClose();
     } catch (error) {
-      console.error("Erro ao criar quarto:", error);
+      console.error("Erro ao salvar quarto:", error);
     }
   }
 
   function handleClose() {
-    reset();
+    reset({ number: "", floor: "", roomTypeId: "", status: "AVAILABLE" });
     onClose();
   }
 
+  async function handleDelete() {
+    if (!room) return;
+    if (confirm("Tem certeza que deseja excluir este quarto?")) {
+      try {
+        await deleteRoom.mutateAsync(room.id);
+        handleClose();
+      } catch (error) {
+        console.error("Erro ao excluir quarto:", error);
+      }
+    }
+  }
+
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Adicionar Novo Quarto">
+    <Modal
+      isOpen={isOpen}
+      onClose={handleClose}
+      title={isEditing ? "Editar Quarto" : "Adicionar Novo Quarto"}
+    >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Código */}
         <div>
@@ -158,15 +202,32 @@ export function RoomModal({ isOpen, onClose }: RoomModalProps) {
           )}
         </div>
 
-        {/* Botão Submit */}
-        <div className="flex justify-end pt-4">
+        {/* Botões de Ação */}
+        <div className="flex justify-between pt-4">
+          {isEditing ? (
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={isSubmitting || deleteRoom.isPending}
+              className="flex items-center gap-2 px-4 py-3 bg-danger/10 text-danger font-semibold rounded-xl hover:bg-danger/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <TrashIcon className="w-5 h-5 text-danger" />
+              {deleteRoom.isPending ? "Excluindo..." : "Excluir"}
+            </button>
+          ) : (
+            <div />
+          )}
           <button
             type="submit"
             disabled={isSubmitting}
             className="flex items-center gap-2 px-6 py-3 bg-green-light text-white font-semibold rounded-xl hover:brightness-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <img src="/svg/add_icon.svg" alt="" className="w-5 h-5" />
-            {isSubmitting ? "Adicionando..." : "Adicionar novo quarto"}
+            {isSubmitting
+              ? "Salvando..."
+              : isEditing
+              ? "Salvar alterações"
+              : "Adicionar novo quarto"}
           </button>
         </div>
       </form>
