@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useReservations } from "@/hooks/use-reservations";
+import {
+  useReservations,
+  useCheckIn,
+  useCheckOut,
+} from "@/hooks/use-reservations";
 import { ReservationModal } from "@/components/reservations/reservation-modal";
 import { Reservation, ReservationStatus } from "@/services/reservation-service";
 
@@ -23,11 +27,21 @@ function formatDate(dateString: string): string {
 function ReservationRow({
   reservation,
   onEdit,
+  onCheckIn,
+  onCheckOut,
+  isCheckingIn,
+  isCheckingOut,
 }: {
   reservation: Reservation;
   onEdit: (res: Reservation) => void;
+  onCheckIn: (id: number) => void;
+  onCheckOut: (id: number) => void;
+  isCheckingIn: boolean;
+  isCheckingOut: boolean;
 }) {
   const config = STATUS_CONFIG[reservation.status];
+  const canCheckIn = reservation.status === "CONFIRMED";
+  const canCheckOut = reservation.status === "IN_PROGRESS";
 
   return (
     <tr className="text-center bg-tertiary">
@@ -49,13 +63,34 @@ function ReservationRow({
         </div>
       </td>
       <td className="py-3 border-x border-foreground">
-        <div className="flex items-center justify-center gap-4">
-          <button className="cursor-pointer hover:opacity-70 transition-opacity">
-            <img src="/svg/info_icon.svg" alt="info_icon" />
-          </button>
+        <div className="flex items-center justify-center gap-3">
+          {/* Botão Check-In */}
+          {canCheckIn && (
+            <button
+              onClick={() => onCheckIn(reservation.id)}
+              disabled={isCheckingIn}
+              className="px-3 py-1 bg-success text-white text-sm font-semibold rounded-lg hover:brightness-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Realizar Check-In"
+            >
+              {isCheckingIn ? "..." : "Check-In"}
+            </button>
+          )}
+          {/* Botão Check-Out */}
+          {canCheckOut && (
+            <button
+              onClick={() => onCheckOut(reservation.id)}
+              disabled={isCheckingOut}
+              className="px-3 py-1 bg-danger text-white text-sm font-semibold rounded-lg hover:brightness-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Realizar Check-Out"
+            >
+              {isCheckingOut ? "..." : "Check-Out"}
+            </button>
+          )}
+          {/* Botão Editar */}
           <button
             onClick={() => onEdit(reservation)}
             className="cursor-pointer hover:opacity-70 transition-opacity"
+            title="Editar reserva"
           >
             <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
           </button>
@@ -100,6 +135,8 @@ export default function ReservationsPage() {
     useState<Reservation | null>(null);
   const [search, setSearch] = useState("");
   const { data: reservations, isLoading, error } = useReservations();
+  const checkIn = useCheckIn();
+  const checkOut = useCheckOut();
 
   // Filtra reservas pelo nome do hóspede ou número do quarto
   const filteredReservations = reservations?.filter(
@@ -121,6 +158,14 @@ export default function ReservationsPage() {
   function handleOpenNew() {
     setEditingReservation(null);
     setIsModalOpen(true);
+  }
+
+  function handleCheckIn(id: number) {
+    checkIn.mutate(id);
+  }
+
+  function handleCheckOut(id: number) {
+    checkOut.mutate(id);
   }
 
   return (
@@ -178,6 +223,10 @@ export default function ReservationsPage() {
                 key={reservation.id}
                 reservation={reservation}
                 onEdit={handleEdit}
+                onCheckIn={handleCheckIn}
+                onCheckOut={handleCheckOut}
+                isCheckingIn={checkIn.isPending}
+                isCheckingOut={checkOut.isPending}
               />
             ))
           ) : (
