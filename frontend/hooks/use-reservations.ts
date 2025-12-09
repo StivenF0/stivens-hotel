@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import {
   reservationService,
   CreateReservationDTO,
@@ -45,8 +46,11 @@ export function useCreateReservation() {
     mutationFn: (data: CreateReservationDTO) => reservationService.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: reservationKeys.all });
-      // Também invalida quartos (status pode mudar)
       queryClient.invalidateQueries({ queryKey: roomKeys.all });
+      toast.success("Reserva criada com sucesso!");
+    },
+    onError: () => {
+      toast.error("Erro ao criar reserva");
     },
   });
 }
@@ -64,6 +68,10 @@ export function useUpdateReservation() {
         queryKey: reservationKeys.detail(variables.id),
       });
       queryClient.invalidateQueries({ queryKey: roomKeys.all });
+      toast.success("Reserva atualizada com sucesso!");
+    },
+    onError: () => {
+      toast.error("Erro ao atualizar reserva");
     },
   });
 }
@@ -77,6 +85,10 @@ export function useDeleteReservation() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: reservationKeys.all });
       queryClient.invalidateQueries({ queryKey: roomKeys.all });
+      toast.success("Reserva excluída com sucesso!");
+    },
+    onError: () => {
+      toast.error("Erro ao excluir reserva");
     },
   });
 }
@@ -91,6 +103,10 @@ export function useCheckIn() {
       queryClient.invalidateQueries({ queryKey: reservationKeys.all });
       queryClient.invalidateQueries({ queryKey: reservationKeys.detail(id) });
       queryClient.invalidateQueries({ queryKey: roomKeys.all });
+      toast.success("Check-in realizado com sucesso!");
+    },
+    onError: () => {
+      toast.error("Erro ao realizar check-in");
     },
   });
 }
@@ -105,6 +121,10 @@ export function useCheckOut() {
       queryClient.invalidateQueries({ queryKey: reservationKeys.all });
       queryClient.invalidateQueries({ queryKey: reservationKeys.detail(id) });
       queryClient.invalidateQueries({ queryKey: roomKeys.all });
+      toast.success("Check-out realizado com sucesso!");
+    },
+    onError: () => {
+      toast.error("Erro ao realizar check-out");
     },
   });
 }
