@@ -1,0 +1,43 @@
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: docker/Dockerfile.prod
+    restart: always
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DATABASE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      JPA_SHOW_SQL: "false"
+      LOG_LEVEL: INFO
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: docker/Dockerfile.prod
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - backend
+
+  postgres:
+    image: postgres:17.6-alpine3.22
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - shotel_data:/var/lib/postgresql/data
+
+volumes:
+  shotel_data:

@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN chmod +x ./gradlew
+# Converte terminações de linha CRLF para LF (necessário quando desenvolvendo no Windows)
+RUN sed -i 's/\r$//' ./gradlew && chmod +x ./gradlew
 RUN ./gradlew bootJar --no-daemon
 
 FROM eclipse-temurin:21-jre-alpine-3.22

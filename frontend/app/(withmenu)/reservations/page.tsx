@@ -1,33 +1,210 @@
-export default function Reservations() {
+"use client";
+
+import { useState } from "react";
+import {
+  useReservations,
+  useCheckIn,
+  useCheckOut,
+} from "@/hooks/use-reservations";
+import { ReservationModal } from "@/components/reservations/reservation-modal";
+import { Reservation, ReservationStatus } from "@/services/reservation-service";
+
+// Mapeia status para cores e labels
+const STATUS_CONFIG: Record<ReservationStatus, { bg: string; label: string }> =
+  {
+    CONFIRMED: { bg: "bg-success", label: "Confirmado" },
+    IN_PROGRESS: { bg: "bg-info", label: "Em andamento" },
+    COMPLETED: { bg: "bg-yellow-light", label: "Finalizado" },
+    CANCELED: { bg: "bg-danger", label: "Cancelado" },
+  };
+
+// Formata data de YYYY-MM-DD para DD/MM/YYYY
+function formatDate(dateString: string): string {
+  const [year, month, day] = dateString.split("-");
+  return `${day}/${month}/${year}`;
+}
+
+function ReservationRow({
+  reservation,
+  onEdit,
+  onCheckIn,
+  onCheckOut,
+  isCheckingIn,
+  isCheckingOut,
+}: {
+  reservation: Reservation;
+  onEdit: (res: Reservation) => void;
+  onCheckIn: (id: number) => void;
+  onCheckOut: (id: number) => void;
+  isCheckingIn: boolean;
+  isCheckingOut: boolean;
+}) {
+  const config = STATUS_CONFIG[reservation.status];
+  const canCheckIn = reservation.status === "CONFIRMED";
+  const canCheckOut = reservation.status === "IN_PROGRESS";
+
+  return (
+    <tr className="text-center bg-tertiary">
+      <td className="py-3 border-x border-foreground">
+        {reservation.guest.fullName}
+      </td>
+      <td className="py-3 border-x border-foreground">
+        {reservation.room.number}
+      </td>
+      <td className="py-3 border-x border-foreground">
+        {formatDate(reservation.checkInDate)} -{" "}
+        {formatDate(reservation.checkOutDate)}
+      </td>
+      <td className="py-3 border-x border-foreground">
+        <div
+          className={`px-3 py-1 ${config.bg} text-white w-max mx-auto rounded-2xl`}
+        >
+          {config.label}
+        </div>
+      </td>
+      <td className="py-3 border-x border-foreground">
+        <div className="flex items-center justify-center gap-3">
+          {/* Botão Check-In */}
+          {canCheckIn && (
+            <button
+              onClick={() => onCheckIn(reservation.id)}
+              disabled={isCheckingIn}
+              className="px-3 py-1 bg-success text-white text-sm font-semibold rounded-lg hover:brightness-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Realizar Check-In"
+            >
+              {isCheckingIn ? "..." : "Check-In"}
+            </button>
+          )}
+          {/* Botão Check-Out */}
+          {canCheckOut && (
+            <button
+              onClick={() => onCheckOut(reservation.id)}
+              disabled={isCheckingOut}
+              className="px-3 py-1 bg-danger text-white text-sm font-semibold rounded-lg hover:brightness-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Realizar Check-Out"
+            >
+              {isCheckingOut ? "..." : "Check-Out"}
+            </button>
+          )}
+          {/* Botão Editar */}
+          <button
+            onClick={() => onEdit(reservation)}
+            className="cursor-pointer hover:opacity-70 transition-opacity"
+            title="Editar reserva"
+          >
+            <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
+          </button>
+        </div>
+      </td>
+    </tr>
+  );
+}
+
+function TableSkeleton() {
+  return (
+    <>
+      {[...Array(5)].map((_, i) => (
+        <tr key={i} className="text-center bg-tertiary animate-pulse">
+          <td className="py-3 border-x border-foreground">
+            <div className="h-6 bg-foreground/20 rounded w-32 mx-auto" />
+          </td>
+          <td className="py-3 border-x border-foreground">
+            <div className="h-6 bg-foreground/20 rounded w-16 mx-auto" />
+          </td>
+          <td className="py-3 border-x border-foreground">
+            <div className="h-6 bg-foreground/20 rounded w-48 mx-auto" />
+          </td>
+          <td className="py-3 border-x border-foreground">
+            <div className="h-8 bg-foreground/20 rounded-2xl w-28 mx-auto" />
+          </td>
+          <td className="py-3 border-x border-foreground">
+            <div className="flex items-center justify-center gap-4">
+              <div className="h-6 w-6 bg-foreground/20 rounded" />
+              <div className="h-6 w-6 bg-foreground/20 rounded" />
+            </div>
+          </td>
+        </tr>
+      ))}
+    </>
+  );
+}
+
+export default function ReservationsPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingReservation, setEditingReservation] =
+    useState<Reservation | null>(null);
+  const [search, setSearch] = useState("");
+  const { data: reservations, isLoading, error } = useReservations();
+  const checkIn = useCheckIn();
+  const checkOut = useCheckOut();
+
+  // Filtra reservas pelo nome do hóspede ou número do quarto
+  const filteredReservations = reservations?.filter(
+    (res) =>
+      res.guest.fullName.toLowerCase().includes(search.toLowerCase()) ||
+      res.room.number.toLowerCase().includes(search.toLowerCase())
+  );
+
+  function handleEdit(reservation: Reservation) {
+    setEditingReservation(reservation);
+    setIsModalOpen(true);
+  }
+
+  function handleCloseModal() {
+    setEditingReservation(null);
+    setIsModalOpen(false);
+  }
+
+  function handleOpenNew() {
+    setEditingReservation(null);
+    setIsModalOpen(true);
+  }
+
+  function handleCheckIn(id: number) {
+    checkIn.mutate(id);
+  }
+
+  function handleCheckOut(id: number) {
+    checkOut.mutate(id);
+  }
+
   return (
     <>
       <div className="flex justify-between items-center">
-        <h1 className="font-bold font-[Poppins] text-5xl py-6">Reservas</h1>
-        <div className="">
-          <a
-            href="./new.html"
-            className="flex gap-3 cursor-pointer bg-green-light px-3 py-2 font-[Montserrat] font-semibold text-2xl text-white rounded-xl"
-          >
-            <img src="/svg/add_icon.svg" alt="" />
-            Adicionar Reserva
-          </a>
-        </div>
+        <h1 className="font-bold font-poppins text-5xl py-6">Reservas</h1>
+        <button
+          onClick={handleOpenNew}
+          className="flex gap-3 cursor-pointer bg-green-light px-3 py-2 font-montserrat font-semibold text-2xl text-white rounded-xl hover:brightness-95 transition-all"
+        >
+          <img src="/svg/add_icon.svg" alt="" />
+          Nova reserva
+        </button>
       </div>
 
       {/* Searchbar */}
       <div className="mt-4 w-full grid grid-cols-[1fr_300px]">
         <input
-          className="border border-foreground bg-tertiary text-2xl px-4 py-3 rounded-l-2xl"
+          className="border border-foreground bg-tertiary text-2xl px-4 py-3 rounded-l-2xl focus:outline-none focus:ring-2 focus:ring-info"
           type="text"
+          placeholder="Buscar por hóspede ou quarto..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
-        <button className="bg-info text-tertiary text-3xl flex items-center justify-center gap-3 font-semibold px-4 py-2 rounded-r-2xl cursor-pointer">
+        <button className="bg-info text-tertiary text-3xl flex items-center justify-center gap-3 font-semibold px-4 py-2 rounded-r-2xl cursor-pointer hover:brightness-95 transition-all">
           <img src="/svg/search_icon.svg" alt="" />
           <div>Pesquisar</div>
         </button>
       </div>
 
+      {/* Error State */}
+      {error && (
+        <div className="mt-8 p-4 bg-danger/10 border border-danger rounded-lg text-danger">
+          Erro ao carregar reservas: {error.message}
+        </div>
+      )}
+
       {/* Table */}
-      <table className="mt-12 font-[Montserrat] font-semibold border border-foreground">
+      <table className="mt-12 w-full font-montserrat font-semibold border border-foreground">
         <thead className="text-3xl border-b border-foreground">
           <tr>
             <th className="py-3 border-x border-foreground">Hóspede</th>
@@ -38,202 +215,41 @@ export default function Reservations() {
           </tr>
         </thead>
         <tbody className="text-2xl">
-          {/* Row example */}
-          <tr className="text-center bg-tertiary">
-            <td className="py-3 border-x border-foreground">Antônio Weine</td>
-            <td className="py-3 border-x border-foreground">E-10</td>
-            <td className="py-3 border-x border-foreground">
-              08/09/2025 - 10/09/2025
-            </td>
-            <td className="py-3 border-x border-foreground">
-              <div className="px-3 py-1 bg-success text-white w-max mx-auto rounded-2xl">
-                Confirmada
-              </div>
-            </td>
-            <td className="py-3 border-x border-foreground flex items-center justify-center gap-4">
-              <a href="reservation.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/info_icon.svg" alt="info_icon" />
-                </button>
-              </a>
-              <a href="edit.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
-                </button>
-              </a>
-            </td>
-          </tr>
-          {/* Row repetitions */}
-          <tr className="text-center border-foreground bg-tertiary">
-            <td className="py-3 border-x border-foreground">Antônio Weine</td>
-            <td className="py-3 border-x border-foreground">E-10</td>
-            <td className="py-3 border-x border-foreground">
-              08/09/2025 - 10/09/2025
-            </td>
-            <td className="py-3 border-x border-foreground">
-              <div className="px-3 py-1 bg-danger text-white w-max mx-auto rounded-2xl">
-                Cancelada
-              </div>
-            </td>
-            <td className="py-3 border-x border-foreground flex items-center justify-center gap-4">
-              <a href="reservation.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/info_icon.svg" alt="info_icon" />
-                </button>
-              </a>
-              <a href="edit.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
-                </button>
-              </a>
-            </td>
-          </tr>
-          <tr className="text-center border-foreground bg-tertiary">
-            <td className="py-3 border-x border-foreground">Antônio Weine</td>
-            <td className="py-3 border-x border-foreground">E-10</td>
-            <td className="py-3 border-x border-foreground">
-              08/09/2025 - 10/09/2025
-            </td>
-            <td className="py-3 border-x border-foreground">
-              <div className="px-3 py-1 bg-info text-white w-max mx-auto rounded-2xl">
-                Em andamento
-              </div>
-            </td>
-            <td className="py-3 border-x border-foreground flex items-center justify-center gap-4">
-              <a href="reservation.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/info_icon.svg" alt="info_icon" />
-                </button>
-              </a>
-              <a href="edit.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
-                </button>
-              </a>
-            </td>
-          </tr>
-          <tr className="text-center border-foreground bg-tertiary">
-            <td className="py-3 border-x border-foreground">Antônio Weine</td>
-            <td className="py-3 border-x border-foreground">E-10</td>
-            <td className="py-3 border-x border-foreground">
-              08/09/2025 - 10/09/2025
-            </td>
-            <td className="py-3 border-x border-foreground">
-              <div className="px-3 py-1 bg-yellow-light text-white w-max mx-auto rounded-2xl">
-                Finalizado
-              </div>
-            </td>
-            <td className="py-3 border-x border-foreground flex items-center justify-center gap-4">
-              <a href="reservation.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/info_icon.svg" alt="info_icon" />
-                </button>
-              </a>
-              <a href="edit.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
-                </button>
-              </a>
-            </td>
-          </tr>
-          <tr className="text-center bg-tertiary">
-            <td className="py-3 border-x border-foreground">Antônio Weine</td>
-            <td className="py-3 border-x border-foreground">E-10</td>
-            <td className="py-3 border-x border-foreground">
-              08/09/2025 - 10/09/2025
-            </td>
-            <td className="py-3 border-x border-foreground">
-              <div className="px-3 py-1 bg-success text-white w-max mx-auto rounded-2xl">
-                Confirmada
-              </div>
-            </td>
-            <td className="py-3 border-x border-foreground flex items-center justify-center gap-4">
-              <a href="reservation.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/info_icon.svg" alt="info_icon" />
-                </button>
-              </a>
-              <a href="edit.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
-                </button>
-              </a>
-            </td>
-          </tr>
-          <tr className="text-center bg-tertiary">
-            <td className="py-3 border-x border-foreground">Antônio Weine</td>
-            <td className="py-3 border-x border-foreground">E-10</td>
-            <td className="py-3 border-x border-foreground">
-              08/09/2025 - 10/09/2025
-            </td>
-            <td className="py-3 border-x border-foreground">
-              <div className="px-3 py-1 bg-success text-white w-max mx-auto rounded-2xl">
-                Confirmada
-              </div>
-            </td>
-            <td className="py-3 border-x border-foreground flex items-center justify-center gap-4">
-              <a href="reservation.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/info_icon.svg" alt="info_icon" />
-                </button>
-              </a>
-              <a href="edit.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
-                </button>
-              </a>
-            </td>
-          </tr>
-          <tr className="text-center bg-tertiary">
-            <td className="py-3 border-x border-foreground">Antônio Weine</td>
-            <td className="py-3 border-x border-foreground">E-10</td>
-            <td className="py-3 border-x border-foreground">
-              08/09/2025 - 10/09/2025
-            </td>
-            <td className="py-3 border-x border-foreground">
-              <div className="px-3 py-1 bg-success text-white w-max mx-auto rounded-2xl">
-                Confirmada
-              </div>
-            </td>
-            <td className="py-3 border-x border-foreground flex items-center justify-center gap-4">
-              <a href="reservation.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/info_icon.svg" alt="info_icon" />
-                </button>
-              </a>
-              <a href="edit.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
-                </button>
-              </a>
-            </td>
-          </tr>
-          <tr className="text-center bg-tertiary">
-            <td className="py-3 border-x border-foreground">Antônio Weine</td>
-            <td className="py-3 border-x border-foreground">E-10</td>
-            <td className="py-3 border-x border-foreground">
-              08/09/2025 - 10/09/2025
-            </td>
-            <td className="py-3 border-x border-foreground">
-              <div className="px-3 py-1 bg-success text-white w-max mx-auto rounded-2xl">
-                Confirmada
-              </div>
-            </td>
-            <td className="py-3 border-x border-foreground flex items-center justify-center gap-4">
-              <a href="reservation.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/info_icon.svg" alt="info_icon" />
-                </button>
-              </a>
-              <a href="edit.html">
-                <button className="cursor-pointer">
-                  <img src="/svg/edit_brown_icon.svg" alt="edit_brown_icon" />
-                </button>
-              </a>
-            </td>
-          </tr>
+          {isLoading ? (
+            <TableSkeleton />
+          ) : filteredReservations && filteredReservations.length > 0 ? (
+            filteredReservations.map((reservation) => (
+              <ReservationRow
+                key={reservation.id}
+                reservation={reservation}
+                onEdit={handleEdit}
+                onCheckIn={handleCheckIn}
+                onCheckOut={handleCheckOut}
+                isCheckingIn={checkIn.isPending}
+                isCheckingOut={checkOut.isPending}
+              />
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan={5}
+                className="py-12 text-center text-foreground text-xl"
+              >
+                {search
+                  ? "Nenhuma reserva encontrada."
+                  : "Nenhuma reserva cadastrada."}
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
+
+      {/* Modal */}
+      <ReservationModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        reservation={editingReservation}
+      />
     </>
   );
 }

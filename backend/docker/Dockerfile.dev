@@ -1,0 +1,18 @@
+FROM eclipse-temurin:21-jdk-alpine-3.22
+
+WORKDIR /app
+
+# Copia wrapper e baixa Gradle durante o build
+COPY gradlew .
+COPY gradle ./gradle
+# Converte terminações de linha CRLF para LF (necessário quando desenvolvendo no Windows)
+RUN sed -i 's/\r$//' ./gradlew && chmod +x ./gradlew && ./gradlew --version
+
+# Copia arquivos de build e baixa dependências
+COPY build.gradle settings.gradle ./
+RUN ./gradlew dependencies --no-daemon || true
+
+EXPOSE 8080
+
+# Usa shell form para aplicar sed antes de executar (necessário pois o volume sobrescreve os arquivos)
+CMD sh -c "sed -i 's/\r$//' ./gradlew && chmod +x ./gradlew && ./gradlew bootRun --no-daemon"
