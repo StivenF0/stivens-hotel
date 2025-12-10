@@ -279,15 +279,12 @@ Conventional Commits:
 - [x] Adicionar modal de edição e exclusão em `/reservations`
 - [x] Implementar ações de Check-In e Check-Out nas reservas
 - [x] Adicionar confirmação visual (toast) ao criar/editar/excluir com `react-hot-toast`
+- [x] Implementar controle de acesso baseado em roles (RBAC)
+- [x] Criar páginas de erro (404, 500)
+- [x] Criar service e hooks para usuários (`services/user-service.ts`, `hooks/use-users.ts`)
+- [x] Implementar formulários de hóspedes e usuários (React Hook Form + Zod)
+- [x] Integrar página `/guests` com API real
+- [x] Integrar página `/users` com API real
+- [x] Componentizar elementos repetidos (SearchBar, Table, StatusBadge)
 
 ### 📋 Tarefas Pendentes
-
-#### 👨‍💻 Weine (RBAC + Hóspedes & Usuários)
-
-- [ ] Implementar controle de acesso baseado em roles (RBAC)
-- [ ] Criar páginas de erro (404, 500)
-- [ ] Criar service e hooks para usuários (`services/user-service.ts`, `hooks/use-users.ts`)
-- [ ] Implementar formulários de hóspedes e usuários (React Hook Form + Zod)
-- [ ] Integrar página `/guests` com API real
-- [ ] Integrar página `/users` com API real
-- [ ] Componentizar elementos repetidos (SearchBar, Table, StatusBadge)
