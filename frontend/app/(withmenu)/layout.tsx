@@ -105,7 +105,7 @@ export default function MenuLayout({
               href="/dashboard"
               title="Dashboard"
             >
-              <div className="w-8 h-8 flex-shrink-0">
+              <div className="w-8 h-8 shrink-0">
                 <Image
                   className="w-full h-full"
                   src="/menu/dashboard_icon.svg"
@@ -126,7 +126,7 @@ export default function MenuLayout({
               href="/reservations"
               title="Reservas"
             >
-              <div className="w-8 h-8 flex-shrink-0">
+              <div className="w-8 h-8 shrink-0">
                 <Image
                   className="w-full h-full"
                   src="/menu/reservas_icon.svg"
@@ -147,7 +147,7 @@ export default function MenuLayout({
               href="/guests"
               title="Hóspedes"
             >
-              <div className="w-8 h-8 flex-shrink-0">
+              <div className="w-8 h-8 shrink-0">
                 <Image
                   className="w-full h-full"
                   src="/menu/hospedes_icon.svg"
@@ -168,7 +168,7 @@ export default function MenuLayout({
               href="/rooms"
               title="Quartos"
             >
-              <div className="w-8 h-8 flex-shrink-0">
+              <div className="w-8 h-8 shrink-0">
                 <Image
                   className="w-full h-full"
                   src="/menu/key_icon.svg"
@@ -189,7 +189,7 @@ export default function MenuLayout({
               href="/room-types"
               title="Tipos de Quarto"
             >
-              <div className="w-8 h-8 flex-shrink-0">
+              <div className="w-8 h-8 shrink-0">
                 <Image
                   className="w-full h-full"
                   src="/menu/key_icon.svg"
@@ -211,7 +211,7 @@ export default function MenuLayout({
                 href="/users"
                 title="Usuários"
               >
-                <div className="w-8 h-8 flex-shrink-0">
+                <div className="w-8 h-8 shrink-0">
                   <Image className="w-full h-full" src="/menu/user.svg" alt="user" width={24} height={24} />
                 </div>
                 {isSidebarOpen && (
