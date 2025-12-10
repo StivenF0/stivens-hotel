@@ -36,7 +36,7 @@ export function ReservationModal({
   onClose,
   reservation,
 }: ReservationModalProps) {
-  const { data: guests, isLoading: loadingGuests } = useGuests();
+  const { guests, isLoading: loadingGuests } = useGuests();
   const { data: rooms, isLoading: loadingRooms } = useRooms();
   const createReservation = useCreateReservation();
   const updateReservation = useUpdateReservation();
