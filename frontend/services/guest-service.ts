@@ -1,31 +1,29 @@
+// frontend/services/guest-service.ts
 import { api } from "@/lib/api";
-
-// ============================================
-// TIPOS
-// ============================================
-
-export interface Guest {
-  id: number;
-  fullName: string;
-  cpf: string;
-  phone?: string;
-  email?: string;
-}
-
-// ============================================
-// SERVIÇOS
-// ============================================
+import { Guest } from "@/utils/types"; // Ajuste o import conforme onde criou os tipos
 
 export const guestService = {
-  // Listar todos os hóspedes
-  async getAll(): Promise<Guest[]> {
-    const response = await api.get<Guest[]>("/guests");
-    return response.data;
+  getAll: async () => {
+    const { data } = await api.get<Guest[]>("/guests");
+    return data;
   },
 
-  // Buscar hóspede por ID
-  async getById(id: number): Promise<Guest> {
-    const response = await api.get<Guest>(`/guests/${id}`);
-    return response.data;
+  getById: async (id: number) => {
+    const { data } = await api.get<Guest>(`/guests/${id}`);
+    return data;
+  },
+
+  create: async (guestData: Omit<Guest, "id">) => {
+    const { data } = await api.post<Guest>("/guests", guestData);
+    return data;
+  },
+
+  update: async (id: number, guestData: Partial<Guest>) => {
+    const { data } = await api.put<Guest>(`/guests/${id}`, guestData);
+    return data;
+  },
+
+  delete: async (id: number) => {
+    await api.delete(`/guests/${id}`);
   },
 };

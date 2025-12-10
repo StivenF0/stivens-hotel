@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRooms } from "@/hooks/use-rooms";
 import { RoomModal } from "@/components/rooms/room-modal";
 import { Room, RoomStatus } from "@/services/room-service";
+import { SearchBar } from "@/components/ui/search-bar";
 
 // Mapeia status para cores e labels
 const STATUS_CONFIG: Record<
@@ -109,19 +110,11 @@ export default function RoomsPage() {
       </div>
 
       {/* Searchbar */}
-      <div className="mt-4 w-full grid grid-cols-[1fr_300px]">
-        <input
-          className="border border-foreground bg-tertiary text-2xl px-4 py-3 rounded-l-2xl focus:outline-none focus:ring-2 focus:ring-info"
-          type="text"
-          placeholder="Buscar por código ou tipo..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button className="bg-info text-tertiary text-3xl flex items-center justify-center gap-3 font-semibold px-4 py-2 rounded-r-2xl cursor-pointer hover:brightness-95 transition-all">
-          <img src="/svg/search_icon.svg" alt="" />
-          <div>Pesquisar</div>
-        </button>
-      </div>
+      <SearchBar
+        placeholder="Buscar por código ou tipo..."
+        value={search}
+        onSearch={setSearch}
+      />
 
       {/* Error State */}
       {error && (
