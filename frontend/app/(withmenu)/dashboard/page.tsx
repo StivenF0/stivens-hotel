@@ -2,7 +2,11 @@
 
 import { useMemo } from "react";
 import { useRooms } from "@/hooks/use-rooms";
-import { useReservations, useCheckIn, useCheckOut } from "@/hooks/use-reservations";
+import {
+  useReservations,
+  useCheckIn,
+  useCheckOut,
+} from "@/hooks/use-reservations";
 import { RoomStatus } from "@/services/room-service";
 import { Reservation, ReservationStatus } from "@/services/reservation-service";
 
@@ -35,14 +39,22 @@ function DashboardSkeleton() {
 
 export default function Dashboard() {
   const { data: rooms, isLoading: loadingRooms } = useRooms();
-  const { data: reservations, isLoading: loadingReservations } = useReservations();
+  const { data: reservations, isLoading: loadingReservations } =
+    useReservations();
   const checkInMutation = useCheckIn();
   const checkOutMutation = useCheckOut();
 
   const today = getTodayDate();
 
   const roomStats = useMemo(() => {
-    if (!rooms) return { available: 0, occupied: 0, cleaning: 0, maintenance: 0, total: 0 };
+    if (!rooms)
+      return {
+        available: 0,
+        occupied: 0,
+        cleaning: 0,
+        maintenance: 0,
+        total: 0,
+      };
 
     const stats = {
       available: 0,
@@ -73,7 +85,8 @@ export default function Dashboard() {
   }, [rooms]);
 
   const chartPercentages = useMemo(() => {
-    if (roomStats.total === 0) return { available: 25, occupied: 25, cleaning: 25, maintenance: 25 };
+    if (roomStats.total === 0)
+      return { available: 25, occupied: 25, cleaning: 25, maintenance: 25 };
 
     return {
       available: (roomStats.available / roomStats.total) * 100,
@@ -114,26 +127,36 @@ export default function Dashboard() {
     const segments: string[] = [];
 
     if (chartPercentages.available > 0) {
-      segments.push(`#2a5b4f ${current}% ${current + chartPercentages.available}%`);
+      segments.push(
+        `#2a5b4f ${current}% ${current + chartPercentages.available}%`
+      );
       current += chartPercentages.available;
     }
 
     if (chartPercentages.occupied > 0) {
-      segments.push(`#8c484e ${current}% ${current + chartPercentages.occupied}%`);
+      segments.push(
+        `#8c484e ${current}% ${current + chartPercentages.occupied}%`
+      );
       current += chartPercentages.occupied;
     }
 
     if (chartPercentages.cleaning > 0) {
-      segments.push(`#6b9ac4 ${current}% ${current + chartPercentages.cleaning}%`);
+      segments.push(
+        `#6b9ac4 ${current}% ${current + chartPercentages.cleaning}%`
+      );
       current += chartPercentages.cleaning;
     }
 
     if (chartPercentages.maintenance > 0) {
-      segments.push(`#d88c72 ${current}% ${current + chartPercentages.maintenance}%`);
+      segments.push(
+        `#d88c72 ${current}% ${current + chartPercentages.maintenance}%`
+      );
       current += chartPercentages.maintenance;
     }
 
-    return segments.length > 0 ? `conic-gradient(${segments.join(", ")})` : "#e5e5e5";
+    return segments.length > 0
+      ? `conic-gradient(${segments.join(", ")})`
+      : "#e5e5e5";
   };
 
   return (
@@ -145,19 +168,19 @@ export default function Dashboard() {
           <h1 className="font-bold font-poppins text-4xl">
             Resumo de Operação
           </h1>
-          <div className="flex items-center gap-4 w-[300px]">
+          <div className="flex items-center gap-4 w-[375px]">
             <div className="h-7 w-7 bg-success border"></div>
             <p>Disponível ({roomStats.available})</p>
           </div>
-          <div className="flex items-center gap-4 w-[300px]">
+          <div className="flex items-center gap-4 w-[375px]">
             <div className="h-7 w-7 bg-danger border"></div>
             <p>Ocupado ({roomStats.occupied})</p>
           </div>
-          <div className="flex items-center gap-4 w-[300px]">
+          <div className="flex items-center gap-4 w-[375px]">
             <div className="h-7 w-7 bg-info border"></div>
             <p>Limpeza ({roomStats.cleaning})</p>
           </div>
-          <div className="flex items-center gap-4 w-[300px]">
+          <div className="flex items-center gap-4 w-[375px]">
             <div className="h-7 w-7 bg-warning border"></div>
             <p>Em manutenção ({roomStats.maintenance})</p>
           </div>
@@ -184,10 +207,15 @@ export default function Dashboard() {
           <h1 className="font-bold font-poppins text-4xl">Check-ins de hoje</h1>
           <div className="w-full h-px bg-[#4A4036] opacity-36"></div>
           {checkInsToday.length === 0 ? (
-            <p className="text-xl text-gray-500 mt-4">Nenhum check-in pendente para hoje</p>
+            <p className="text-xl text-gray-500 mt-4">
+              Nenhum check-in pendente para hoje
+            </p>
           ) : (
             checkInsToday.map((reservation) => (
-              <div key={reservation.id} className="w-full text-2xl font-medium flex justify-between items-center">
+              <div
+                key={reservation.id}
+                className="w-full text-2xl font-medium flex justify-between items-center"
+              >
                 <div>
                   Quarto {reservation.room.number}: {reservation.guest.fullName}
                 </div>
@@ -209,10 +237,15 @@ export default function Dashboard() {
           </h1>
           <div className="w-full h-px bg-[#4A4036] opacity-36"></div>
           {checkOutsToday.length === 0 ? (
-            <p className="text-xl text-gray-500 mt-4">Nenhum check-out pendente para hoje</p>
+            <p className="text-xl text-gray-500 mt-4">
+              Nenhum check-out pendente para hoje
+            </p>
           ) : (
             checkOutsToday.map((reservation) => (
-              <div key={reservation.id} className="w-full text-2xl font-medium flex justify-between items-center">
+              <div
+                key={reservation.id}
+                className="w-full text-2xl font-medium flex justify-between items-center"
+              >
                 <div>
                   Quarto {reservation.room.number}: {reservation.guest.fullName}
                 </div>
