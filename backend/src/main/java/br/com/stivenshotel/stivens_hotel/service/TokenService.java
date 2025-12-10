@@ -1,6 +1,7 @@
 package br.com.stivenshotel.stivens_hotel.service;
 
 import br.com.stivenshotel.stivens_hotel.dto.auth.TokenResponseDTO;
+import br.com.stivenshotel.stivens_hotel.dto.user.UserResponseDTO;
 import br.com.stivenshotel.stivens_hotel.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -37,7 +38,13 @@ public class TokenService {
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
 
-        return new TokenResponseDTO(token);
+        UserResponseDTO userDto = new UserResponseDTO(
+                user.getId(),
+                user.getName(),
+                user.getRole()
+        );
+
+        return new TokenResponseDTO(token, userDto);
     }
 
     public String getUsernameFromToken(String token) {
